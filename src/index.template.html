@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>只映给你官网</title>
+<meta name="description" content="只映给你 PRIVATE SCREENING：把你们的爱情故事，做成一部电影。预告片 99 元起，深圳线下，全国线上交付。">
+<meta name="theme-color" content="#1D1B1A">
+<link rel="icon" href="%%FAVICON%%">
+<script>
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('motion');
+  })();
+</script>
+<style>
+%%FONTS%%
+:root {
+  /* 只映给你：一场私人放映。墨黑放映厅与象牙白银幕逐场交替，暖灰只做细线和次要文字。
+     版式：序幕 + 四幕（看片 / 选片 / 怎么做 / 预约），每幕开头一块大字幕卡，节目单随时跳转。 */
+  --ink: #1D1B1A;
+  --ivory: #F3ECE0;
+  --warm: #8A847C;
+  --ink-line: rgba(243, 236, 224, .16);
+  --ivory-line: rgba(29, 27, 26, .16);
+  --font: "ZY Cormorant", "ZY Han Serif", "Source Han Serif SC", "Noto Serif SC", "Songti SC", "STSong", serif;
+  --font-latin: "ZY Cormorant", "Cormorant Garamond", "Times New Roman", serif;
+  --gutter: clamp(20px, 4vw, 64px);
+  --maxw: 1320px;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  color-scheme: dark;
+}
+[data-bg="ink"], .tone-ink {
+  --bg: var(--ink); --fg: var(--ivory);
+  --muted: rgba(243, 236, 224, .68); --faint: rgba(243, 236, 224, .38); --line: var(--ink-line);
+  --card: var(--ivory); --card-fg: var(--ink);
+  --card-muted: rgba(29, 27, 26, .66); --card-faint: rgba(29, 27, 26, .4); --card-line: var(--ivory-line);
+  color-scheme: dark;
+}
+[data-bg="ivory"], .tone-ivory {
+  --bg: var(--ivory); --fg: var(--ink);
+  --muted: rgba(29, 27, 26, .7); --faint: rgba(29, 27, 26, .42); --line: var(--ivory-line);
+  --card: var(--ink); --card-fg: var(--ivory);
+  --card-muted: rgba(243, 236, 224, .66); --card-faint: rgba(243, 236, 224, .38); --card-line: var(--ink-line);
+  color-scheme: light;
+}
+.inv {
+  --bg: var(--card); --fg: var(--card-fg); --muted: var(--card-muted); --faint: var(--card-faint); --line: var(--card-line);
+  background: var(--bg); color: var(--fg);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--ink); }
+body {
+  margin: 0; background: var(--ink); color: var(--ivory);
+  font-family: var(--font); font-weight: 300; font-size: 16px; line-height: 1.85;
+  font-variant-numeric: lining-nums; font-kerning: normal;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility;
+}
+h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2, h3 { font-weight: 300; text-wrap: balance; }
+b, strong { font-weight: 300; }
+a { color: inherit; text-decoration: none; }
+img, svg, canvas, video { display: block; max-width: 100%; }
+button, input, textarea, select { font: inherit; color: inherit; }
+::selection { background: var(--warm); color: var(--ivory); }
+:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+html.is-locked { overflow: hidden; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.wrap { max-width: var(--maxw); margin: 0 auto; }
+.latin { font-family: var(--font-latin); font-weight: 500; }
+.num { font-family: var(--font-latin); font-weight: 500; font-variant-numeric: lining-nums tabular-nums; }
+.ch { display: inline-block; }
+.manifesto .ch { display: inline; }
+
+/* ---------- grain, progress ---------- */
+.grain { position: fixed; inset: -50%; pointer-events: none; z-index: 90; opacity: .07; mix-blend-mode: overlay; background-size: 180px 180px; }
+html.motion .grain { animation: grain 1s steps(6) infinite; }
+@keyframes grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-7%, 4%); } 40% { transform: translate(5%, -6%); } 60% { transform: translate(-3%, 8%); } 80% { transform: translate(8%, 2%); } 100% { transform: translate(0, 0); } }
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60; pointer-events: none; opacity: 0; transition: opacity .5s var(--ease); }
+body.nav-on .progress { opacity: 1; }
+.progress-fill { position: absolute; inset: 0; background: var(--warm); transform-origin: left center; transform: scaleX(0); }
+.progress .pm { position: absolute; top: 0; width: 1px; height: 7px; background: var(--warm); }
+
+/* ---------- top bar ---------- */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 72px; padding: 0 var(--gutter);
+  display: flex; align-items: center; justify-content: space-between; color: var(--ivory);
+  transition: color .5s var(--ease);
+}
+.topbar::before {
+  content: ""; position: absolute; inset: 0 0 -24px; z-index: -1; pointer-events: none; opacity: 0;
+  background: linear-gradient(to bottom, rgba(29, 27, 26, .8), rgba(29, 27, 26, 0));
+  transition: opacity .5s var(--ease);
+}
+body[data-top="ivory"] .topbar { color: var(--ink); }
+body[data-top="ivory"] .topbar::before { background: linear-gradient(to bottom, rgba(243, 236, 224, .88), rgba(243, 236, 224, 0)); }
+body.nav-on .topbar::before { opacity: 1; }
+.lockup { display: flex; align-items: center; gap: 14px; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+html.js body:not(.nav-on) .lockup { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+.lockup svg { width: auto; height: 28px; fill: currentColor; }
+.lockup .lk-div { width: 1px; height: 28px; background: var(--warm); }
+.lockup .lk-text { display: flex; flex-direction: column; line-height: 1; gap: 7px; }
+.lockup .lk-cn { font-size: 15px; letter-spacing: .48em; }
+.lockup .lk-en { font-family: var(--font-latin); font-weight: 500; font-size: 8.5px; letter-spacing: .42em; color: var(--warm); }
+.top-actions { display: flex; align-items: center; gap: 22px; }
+.menu-btn { display: inline-flex; align-items: center; gap: 10px; padding: 8px 0; background: none; border: 0; cursor: pointer; font-size: 13px; letter-spacing: .24em; line-height: 1; }
+.menu-btn .mb { position: relative; width: 18px; height: 7px; }
+.menu-btn .mb::before, .menu-btn .mb::after { content: ""; position: absolute; left: 0; right: 0; height: 1px; background: currentColor; transition: transform .35s var(--ease); }
+.menu-btn .mb::before { top: 0; }
+.menu-btn .mb::after { bottom: 0; right: 5px; }
+.menu-btn:hover .mb::after { transform: translateX(5px); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .7em;
+  height: 48px; padding: 0 26px; border-radius: 999px; border: 1px solid currentColor; background: transparent;
+  font-family: var(--font); font-size: 14px; letter-spacing: .24em; line-height: 1; white-space: nowrap; cursor: pointer;
+  transition: background-color .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease);
+}
+.btn > span { margin-right: -.24em; }
+.btn-sm { height: 38px; padding: 0 18px; font-size: 13px; letter-spacing: .2em; }
+.btn-sm > span { margin-right: -.2em; }
+.btn-solid { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.btn-solid:hover { background: transparent; color: var(--fg); }
+.btn[disabled] { opacity: .4; cursor: not-allowed; }
+.topbar .btn-sm:hover { background: currentColor; }
+.topbar .btn-sm:hover > span { color: var(--ink); }
+body[data-top="ivory"] .topbar .btn-sm:hover > span { color: var(--ivory); }
+.link-arrow { display: inline-flex; align-items: center; gap: .6em; font-size: 14px; letter-spacing: .2em; padding-bottom: 4px; border-bottom: 1px solid currentColor; transition: gap .35s var(--ease); }
+.link-arrow:hover { gap: 1em; }
+
+/* ---------- pill nav + hud ---------- */
+.pill {
+  position: fixed; left: 50%; bottom: 22px; z-index: 50; width: max-content;
+  transform: translate(-50%, 16px); opacity: 0; pointer-events: none;
+  display: flex; gap: 2px; padding: 5px; border-radius: 999px;
+  background: rgba(243, 236, 224, .92); color: var(--ink);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transition: opacity .5s var(--ease), transform .5s var(--ease), background-color .5s var(--ease), color .5s var(--ease);
+}
+body.nav-on .pill { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+body[data-bot="ivory"] .pill { background: rgba(29, 27, 26, .9); color: var(--ivory); }
+.pill a { padding: 8px 16px 8px 18px; border-radius: 999px; font-size: 13px; letter-spacing: .24em; line-height: 1.2; white-space: nowrap; transition: background-color .35s var(--ease), color .35s var(--ease); }
+.pill a[aria-current="true"] { background: var(--ink); color: var(--ivory); }
+body[data-bot="ivory"] .pill a[aria-current="true"] { background: var(--ivory); color: var(--ink); }
+.hud {
+  position: fixed; left: var(--gutter); right: var(--gutter); bottom: 30px; z-index: 49;
+  display: flex; justify-content: space-between; pointer-events: none;
+  font-size: 12px; letter-spacing: .16em; line-height: 1; color: var(--warm); opacity: 0; transition: opacity .5s var(--ease);
+}
+body.nav-on .hud { opacity: 1; }
+.hud .tc { font-family: var(--font-latin); font-weight: 500; font-variant-numeric: lining-nums tabular-nums; }
+
+/* ---------- programme menu ---------- */
+.menu { position: fixed; inset: 0; z-index: 70; overflow-y: auto; padding: 0 var(--gutter); background: var(--ink); color: var(--ivory); overscroll-behavior: contain; }
+.menu[hidden] { display: none; }
+.menu-in { max-width: var(--maxw); min-height: 100%; margin: 0 auto; display: flex; flex-direction: column; padding: 18px 0 32px; }
+.menu-top { display: flex; align-items: center; justify-content: space-between; min-height: 54px; }
+.menu-top .eyebrow { margin: 0; }
+.menu-close { height: 38px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(243, 236, 224, .4); background: none; color: var(--ivory); font-size: 13px; letter-spacing: .2em; cursor: pointer; }
+.menu-close:hover { border-color: var(--ivory); }
+.menu-cols { flex: 1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; align-content: center; padding: 48px 0; }
+.mc-act { font-size: 12.5px; letter-spacing: .24em; color: var(--warm); padding-bottom: 14px; margin-bottom: 12px; border-bottom: 1px solid var(--ink-line); line-height: 1.5; }
+.mc-act .latin { display: block; font-style: italic; font-size: 12px; letter-spacing: .26em; margin-bottom: 4px; }
+.mc a { display: flex; align-items: baseline; gap: 12px; padding: 7px 0; font-size: clamp(17px, 1.35vw, 20px); letter-spacing: .08em; line-height: 1.45; color: rgba(243, 236, 224, .78); transition: color .3s var(--ease), transform .3s var(--ease); }
+.mc a:hover, .mc a[aria-current="true"] { color: var(--ivory); transform: translateX(6px); }
+.mc a .num { flex: none; width: 22px; font-size: 13px; color: var(--warm); }
+.menu-foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 22px; border-top: 1px solid var(--ink-line); font-size: 12.5px; letter-spacing: .14em; color: var(--warm); }
+
+/* ---------- sections ---------- */
+.sec { position: relative; padding: clamp(104px, 15vh, 168px) var(--gutter); background: var(--bg); color: var(--fg); }
+.eyebrow { font-size: 12.5px; letter-spacing: .28em; line-height: 1.4; color: var(--warm); }
+.title { font-size: clamp(34px, 4.2vw, 64px); line-height: 1.22; letter-spacing: .08em; margin-top: 18px; }
+.lede { font-size: clamp(15.5px, 1.15vw, 17px); line-height: 1.95; letter-spacing: .04em; max-width: 30em; color: var(--muted); }
+.sec-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 30em); align-items: end; gap: 24px clamp(32px, 6vw, 96px); margin-bottom: clamp(48px, 8vh, 88px); }
+.fine { margin-top: 32px; padding-top: 18px; border-top: 1px solid var(--line); max-width: 58em; font-size: 13.5px; line-height: 1.95; letter-spacing: .04em; color: var(--muted); }
+.fine a { border-bottom: 1px solid currentColor; }
+.ai-tag { position: absolute; z-index: 2; left: 12px; bottom: 10px; font-size: 10.5px; letter-spacing: .14em; line-height: 1.2; color: rgba(243, 236, 224, .82); }
+
+/* act title card */
+.act-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 10px 40px; padding-bottom: clamp(26px, 4vh, 40px); margin-bottom: clamp(64px, 10vh, 112px); border-bottom: 1px solid var(--line); }
+.act-no { grid-column: 1 / -1; font-size: 13px; letter-spacing: .3em; color: var(--warm); line-height: 1.4; }
+.act-no .latin { font-style: italic; margin-right: .8em; }
+.act-word { font-size: clamp(64px, 10vw, 160px); line-height: 1; letter-spacing: .08em; }
+.act-line { font-size: clamp(16px, 1.4vw, 20px); letter-spacing: .12em; color: var(--muted); padding-bottom: .5em; text-align: right; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; background: var(--ink); color: var(--ivory); --kh: 220px; --kcy: 40svh; }
+.hero-stage { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; }
+.hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-fallback { position: absolute; left: 50%; top: calc(var(--kcy) - var(--kh) / 2); height: var(--kh); width: auto; transform: translateX(-50%); fill: var(--ivory); }
+html.js .hero-fallback { display: none; }
+.hero-ui { position: absolute; inset: 0; }
+.hero-name { position: absolute; left: 0; right: 0; top: calc(var(--kcy) + var(--kh) / 2 + 4.5svh); text-align: center; }
+.hero-cn { font-size: clamp(22px, 2.2vw, 32px); letter-spacing: .66em; padding-left: .66em; line-height: 1.2; }
+.hero-cn span { display: inline-block; }
+.hero-rule { display: block; width: 44px; height: 1px; margin: 20px auto 16px; background: var(--warm); }
+.hero-en { font-family: var(--font-latin); font-weight: 500; font-size: clamp(10px, .82vw, 12.5px); letter-spacing: .52em; padding-left: .52em; color: var(--warm); line-height: 1; }
+.hero-foot { position: absolute; left: var(--gutter); right: var(--gutter); bottom: clamp(28px, 5svh, 56px); display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.hero-lede { font-size: clamp(18px, 1.55vw, 24px); letter-spacing: .14em; line-height: 1.6; }
+.hero-actions { display: flex; align-items: center; gap: 28px; }
+.hero-hint { position: absolute; left: 50%; bottom: clamp(30px, 5.4svh, 60px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 12px; font-size: 12px; letter-spacing: .32em; color: var(--warm); line-height: 1; }
+.hero-hint i { display: block; width: 1px; height: 34px; background: linear-gradient(var(--warm), transparent); transform-origin: top; }
+html.motion .hero-hint i { animation: hint 2.2s var(--ease) infinite; }
+@keyframes hint { 0% { transform: scaleY(0); opacity: 1; } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+html.motion .hero-cn span, html.motion .hero-en, html.motion .hero-foot > *, html.motion .hero-hint, html.motion .top-actions { opacity: 0; }
+html.motion .hero-rule { transform: scaleX(0); }
+
+/* ---------- 01 screen ---------- */
+.screen { padding-top: clamp(120px, 18vh, 200px); }
+.screen-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(40px, 8vw, 140px); align-items: start; }
+.v-title { writing-mode: vertical-rl; text-orientation: mixed; font-size: clamp(38px, 4.6vw, 70px); letter-spacing: .18em; line-height: 1.55; grid-column: 2; grid-row: 1 / span 2; justify-self: end; }
+.v-title .v-col { display: block; }
+.v-title .v-col + .v-col { margin-top: 2.2em; margin-block-start: .35em; }
+.screen-copy { grid-column: 1; grid-row: 1; padding-top: 8px; }
+.manifesto { font-size: clamp(20px, 2vw, 30px); line-height: 1.85; letter-spacing: .06em; max-width: 24em; margin-top: 28px; }
+.diffs { grid-column: 1; grid-row: 2; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 44px); align-self: end; margin-top: clamp(56px, 10vh, 120px); }
+.diffs li { border-top: 1px solid var(--line); padding-top: 22px; }
+.diffs h3 { font-size: clamp(18px, 1.4vw, 21px); letter-spacing: .1em; line-height: 1.5; }
+.diffs p { margin-top: 10px; font-size: 15px; line-height: 1.85; color: var(--muted); }
+
+/* ---------- 02 cinema ---------- */
+.player { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #000; }
+.pl-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pl-start {
+  position: absolute; inset: 0; z-index: 2; display: flex; align-items: flex-end; justify-content: flex-start; gap: clamp(14px, 1.8vw, 24px);
+  padding: clamp(18px, 3vw, 40px); border: 0; cursor: pointer; color: var(--ivory);
+  background: linear-gradient(to top, rgba(29, 27, 26, .7), rgba(29, 27, 26, 0) 55%);
+  transition: opacity .5s var(--ease);
+}
+.player.is-started .pl-start { opacity: 0; pointer-events: none; }
+.pl-ring { width: clamp(48px, 5.6vw, 84px); aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(243, 236, 224, .75); display: grid; place-items: center; transition: transform .5s var(--ease), background-color .5s var(--ease); }
+.pl-start:hover .pl-ring { transform: scale(1.06); background: rgba(243, 236, 224, .12); }
+.pl-ring svg { width: 28%; margin-left: 7%; fill: currentColor; }
+.pl-start-text { display: flex; flex-direction: column; gap: 8px; text-align: left; font-size: clamp(18px, 1.7vw, 26px); letter-spacing: .2em; line-height: 1.2; }
+.pl-start-text small { font-family: var(--font-latin); font-weight: 500; font-size: 12px; letter-spacing: .3em; color: rgba(243, 236, 224, .72); }
+.pl-tag { position: absolute; z-index: 3; top: 14px; left: 14px; padding: 5px 10px; border: 1px dashed rgba(243, 236, 224, .55); font-size: 11.5px; letter-spacing: .14em; line-height: 1.3; color: rgba(243, 236, 224, .9); background: rgba(29, 27, 26, .35); transition: opacity .4s var(--ease); }
+.player.is-started .pl-tag { opacity: 0; }
+.pl-ui { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 16px; padding: 22px 18px 14px; color: var(--ivory); background: linear-gradient(to top, rgba(0, 0, 0, .6), rgba(0, 0, 0, 0)); opacity: 0; pointer-events: none; transition: opacity .4s var(--ease); }
+.player.is-started .pl-ui { opacity: 1; pointer-events: auto; }
+.pl-ui button { width: 34px; height: 34px; display: grid; place-items: center; padding: 0; background: none; border: 0; color: inherit; cursor: pointer; }
+.pl-ui button svg { width: 15px; height: 15px; fill: currentColor; }
+.pl-toggle .i-pause, .pl-toggle.on .i-play { display: none; }
+.pl-toggle.on .i-pause { display: block; }
+.pl-time { font-size: 12.5px; letter-spacing: .1em; min-width: 6.4em; }
+.pl-track { position: relative; flex: 1; height: 20px; cursor: pointer; touch-action: none; }
+.pl-track::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: rgba(243, 236, 224, .26); }
+.pl-fill { position: absolute; left: 0; top: 50%; height: 2px; margin-top: -1px; width: 0; background: var(--ivory); }
+.pl-mark { position: absolute; top: 50%; width: 1px; height: 8px; margin-top: -4px; background: rgba(243, 236, 224, .7); }
+.chapters { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+.chapters button { width: 100%; height: 100%; display: flex; gap: 10px; align-items: baseline; padding: 16px 14px 16px 0; background: none; border: 0; border-top: 1px solid transparent; margin-top: -1px; text-align: left; cursor: pointer; font-size: 13.5px; letter-spacing: .08em; line-height: 1.5; color: var(--muted); transition: color .3s var(--ease), border-color .3s var(--ease); }
+.chapters button:hover { color: var(--fg); }
+.chapters button[aria-current="true"] { color: var(--fg); border-top-color: var(--fg); }
+.chapters .num { color: var(--warm); font-size: 12.5px; }
+.stills-head { display: flex; justify-content: space-between; align-items: baseline; margin: clamp(64px, 10vh, 112px) 0 28px; }
+.posters { display: grid; grid-template-columns: 1.22fr 1fr 1fr; gap: clamp(16px, 2.6vw, 40px); align-items: start; }
+.poster:nth-child(2) { margin-top: clamp(48px, 11vw, 170px); }
+.poster:nth-child(3) { margin-top: clamp(20px, 4vw, 64px); }
+.poster-frame { position: relative; aspect-ratio: 2 / 3; overflow: hidden; background: #000; }
+.poster-frame img { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 40%; }
+.poster-frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(29, 27, 26, .62), rgba(29, 27, 26, 0) 32%); }
+.poster.lead .poster-frame::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to left, rgba(29, 27, 26, .42), rgba(29, 27, 26, 0) 46%); }
+.poster-type { position: absolute; z-index: 2; top: 6%; right: 7%; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; writing-mode: vertical-rl; color: var(--ivory); }
+.poster-type .pt-title { font-size: clamp(30px, 3.4vw, 54px); letter-spacing: .32em; line-height: 1; }
+.poster-type .pt-sub { font-size: 12px; letter-spacing: .5em; line-height: 1; margin-top: 6px; color: rgba(243, 236, 224, .82); }
+.poster figcaption { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 13px; letter-spacing: .24em; line-height: 1.4; color: var(--warm); }
+.poster figcaption b { color: var(--fg); }
+.sample-end { margin-top: clamp(56px, 9vh, 104px); display: flex; justify-content: flex-end; }
+.sample-end p { font-size: clamp(20px, 2vw, 30px); letter-spacing: .1em; line-height: 1.6; }
+
+/* ---------- 03 poster maker ---------- */
+.pm-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: clamp(40px, 7vw, 120px); align-items: center; }
+.pm-form { margin-top: 40px; display: grid; gap: 24px; }
+.pm-poster { position: relative; aspect-ratio: 2 / 3; overflow: hidden; background: var(--ink); color: var(--ivory); box-shadow: 0 40px 80px -40px rgba(29, 27, 26, .55); }
+.pm-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .5s var(--ease); }
+.pm-poster[data-tpl="4"] .pm-img { opacity: 0; }
+.pm-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(29, 27, 26, .9) 0%, rgba(29, 27, 26, .45) 25%, rgba(29, 27, 26, 0) 46%); }
+.pm-poster[data-side="r"] .pm-shade { background: linear-gradient(to top, rgba(29, 27, 26, .9) 0%, rgba(29, 27, 26, .45) 25%, rgba(29, 27, 26, 0) 46%), linear-gradient(to left, rgba(29, 27, 26, .5), rgba(29, 27, 26, 0) 42%); }
+.pm-poster[data-side="l"] .pm-shade { background: linear-gradient(to top, rgba(29, 27, 26, .9) 0%, rgba(29, 27, 26, .45) 25%, rgba(29, 27, 26, 0) 46%), linear-gradient(to right, rgba(29, 27, 26, .5), rgba(29, 27, 26, 0) 42%); }
+.pm-key { position: absolute; left: 50%; top: 9%; height: 22%; transform: translateX(-50%); opacity: 0; transition: opacity .5s var(--ease); }
+.pm-key svg { height: 100%; width: auto; fill: var(--ivory); }
+.pm-poster[data-tpl="4"] .pm-key { opacity: 1; }
+.pm-v { position: absolute; top: 6%; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; writing-mode: vertical-rl; }
+.pm-poster[data-side="r"] .pm-v { right: 7%; }
+.pm-poster[data-side="l"] .pm-v { left: 7%; }
+.pm-poster[data-side="c"] .pm-v { left: 50%; top: 37%; transform: translateX(-50%); }
+.pm-title-v { font-size: clamp(32px, 3.4vw, 54px); letter-spacing: .3em; line-height: 1; }
+.pm-sub-v { font-size: 11.5px; letter-spacing: .5em; line-height: 1; margin-top: 8px; color: rgba(243, 236, 224, .82); }
+.pm-c { position: absolute; left: 0; right: 0; bottom: 30%; display: none; text-align: center; }
+.pm-title-c { font-size: clamp(32px, 3.6vw, 56px); letter-spacing: .42em; padding-left: .42em; line-height: 1.1; }
+.pm-c small { display: block; margin-top: 14px; font-size: 11.5px; letter-spacing: .5em; padding-left: .5em; color: rgba(243, 236, 224, .8); }
+.pm-poster[data-layout="c"] .pm-c { display: block; }
+.pm-poster[data-layout="c"] .pm-v { display: none; }
+.pm-foot { position: absolute; left: 6%; right: 6%; bottom: 4.5%; display: grid; gap: 6px; text-align: center; }
+.pm-cast { font-size: clamp(13px, 1.05vw, 15px); letter-spacing: .3em; line-height: 1.5; }
+.pm-cast span { margin-right: .8em; font-size: .85em; color: rgba(243, 236, 224, .7); }
+.pm-cast b { word-break: break-all; }
+.pm-date { font-size: 12px; letter-spacing: .22em; color: rgba(243, 236, 224, .8); }
+.pm-brand { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 10.5px; letter-spacing: .32em; color: rgba(243, 236, 224, .86); }
+.pm-brand svg { height: 15px; width: auto; fill: currentColor; }
+.pm-ai { font-size: 9.5px; letter-spacing: .14em; color: rgba(243, 236, 224, .62); margin-top: 4px; }
+.pm-hint { margin-top: 14px; font-size: 13px; letter-spacing: .06em; color: var(--muted); text-align: center; }
+
+/* ---------- forms (shared) ---------- */
+.field { display: grid; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.field label, .field legend { font-size: 12.5px; letter-spacing: .24em; color: var(--warm); line-height: 1.5; padding: 0; }
+.field input[type="text"], .field input[type="date"], .field textarea {
+  width: 100%; min-height: 46px; padding: 10px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+  background: transparent; font-family: var(--font); font-size: 16px; letter-spacing: .04em; line-height: 1.6; color: var(--fg);
+  transition: border-color .3s var(--ease);
+}
+.field textarea { resize: vertical; min-height: 84px; }
+.field input::placeholder, .field textarea::placeholder { color: var(--faint); }
+.field input:focus, .field textarea:focus { outline: none; border-bottom-color: var(--fg); }
+.date-wrap { display: flex; align-items: center; gap: 16px; }
+.date-wrap input[type="date"] { flex: 1; }
+.check { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; letter-spacing: .12em; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.check input { width: 16px; height: 16px; margin: 0; accent-color: var(--fg); }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.chips input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.chips label { display: inline-flex; align-items: center; height: 38px; padding: 0 16px 0 18px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); font-size: 13.5px; letter-spacing: .2em; line-height: 1; cursor: pointer; transition: background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease); }
+.chips label:hover { border-color: var(--fg); color: var(--fg); }
+.chips input:checked + label { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chips input:focus-visible + label { outline: 1px solid var(--fg); outline-offset: 3px; }
+.form-note { font-size: 13px; letter-spacing: .06em; color: var(--warm); line-height: 1.7; }
+
+/* ---------- 04 pricing: tickets + calculator ---------- */
+.tickets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.5vw, 22px); }
+.ticket {
+  --notch: 11px; --stub: 84px;
+  position: relative; display: flex; flex-direction: column; min-height: 540px;
+  -webkit-mask: radial-gradient(circle at 0 calc(100% - var(--stub)), transparent var(--notch), #000 calc(var(--notch) + .5px)) 0 0 / 51% 100% no-repeat, radial-gradient(circle at 100% calc(100% - var(--stub)), transparent var(--notch), #000 calc(var(--notch) + .5px)) 100% 0 / 51% 100% no-repeat;
+  mask: radial-gradient(circle at 0 calc(100% - var(--stub)), transparent var(--notch), #000 calc(var(--notch) + .5px)) 0 0 / 51% 100% no-repeat, radial-gradient(circle at 100% calc(100% - var(--stub)), transparent var(--notch), #000 calc(var(--notch) + .5px)) 100% 0 / 51% 100% no-repeat;
+}
+.t-main { flex: 1; display: flex; flex-direction: column; padding: 28px 26px 26px; }
+.t-no { font-family: var(--font-latin); font-weight: 500; font-size: 13px; letter-spacing: .22em; color: var(--warm); line-height: 1.4; }
+.t-name { margin-top: 22px; font-size: clamp(22px, 1.8vw, 26px); letter-spacing: .12em; line-height: 1.35; }
+.t-name .latin { display: block; margin-top: 6px; font-size: 11.5px; letter-spacing: .34em; color: var(--warm); line-height: 1.2; }
+.t-run { margin-top: 18px; font-size: 13.5px; letter-spacing: .14em; color: var(--muted); line-height: 1.5; }
+.t-price { margin-top: 18px; display: grid; gap: 6px; }
+.t-price .p { display: flex; align-items: baseline; gap: 10px; font-family: var(--font-latin); font-weight: 500; font-variant-numeric: lining-nums tabular-nums; font-size: clamp(42px, 3.6vw, 56px); line-height: 1; letter-spacing: .01em; }
+.t-price .p small { font-family: var(--font); font-size: 12.5px; letter-spacing: .14em; color: var(--warm); font-weight: 300; }
+.t-price .p .y { font-size: .42em; align-self: flex-start; margin-top: .25em; margin-right: -4px; }
+.t-price.two .p { font-size: clamp(34px, 2.8vw, 44px); }
+.t-extra { margin-top: 10px; font-size: 13.5px; letter-spacing: .1em; color: var(--muted); line-height: 1.5; }
+.t-list { margin-top: auto; padding-top: 26px; display: grid; gap: 8px; }
+.t-list li { position: relative; padding-left: 18px; font-size: 14px; line-height: 1.7; letter-spacing: .04em; color: var(--muted); }
+.t-list li::before { content: ""; position: absolute; left: 0; top: .85em; width: 8px; height: 1px; background: var(--warm); }
+.t-stub { height: var(--stub); margin: 0 var(--notch); padding: 0 calc(26px - var(--notch)); display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px dashed var(--line); font-size: 12px; letter-spacing: .2em; color: var(--warm); line-height: 1.3; }
+.t-stub .latin { font-size: 10.5px; letter-spacing: .3em; }
+.ticket.sig .t-seal { position: absolute; top: 20px; right: 20px; width: 44px; height: 44px; fill: var(--fg); }
+.swipe-hint { display: none; margin-top: 14px; font-size: 12.5px; letter-spacing: .16em; color: var(--warm); }
+.calc { margin-top: clamp(36px, 6vh, 60px); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 20px clamp(28px, 4vw, 64px); align-items: center; padding: 26px clamp(20px, 2.6vw, 34px); border: 1px solid var(--line); }
+.calc-head .eyebrow { margin: 0; }
+.calc-head p + p { margin-top: 6px; font-size: 14px; color: var(--muted); letter-spacing: .06em; }
+.calc-body { display: grid; gap: 16px; }
+.calc-body .chips { margin: 0; }
+.calc-len { display: flex; align-items: center; gap: 16px; font-size: 13.5px; letter-spacing: .14em; color: var(--muted); }
+.calc-len input[type="range"] { flex: 1; accent-color: var(--fg); }
+.calc-len output { min-width: 4.6em; color: var(--fg); }
+.calc-len.off { opacity: .45; }
+.calc-out { text-align: right; }
+.calc-total { font-family: var(--font-latin); font-weight: 500; font-variant-numeric: lining-nums tabular-nums; font-size: clamp(44px, 4.4vw, 68px); line-height: 1; }
+.calc-formula { margin-top: 10px; font-size: 13.5px; letter-spacing: .06em; color: var(--muted); }
+
+/* ---------- 05 extras ---------- */
+.extras-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(36px, 5vw, 64px) clamp(20px, 3vw, 44px); }
+.ex-media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--ink); }
+.ex-media video, .ex-media .cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ex-len { position: absolute; z-index: 2; right: 12px; top: 10px; font-size: 12px; letter-spacing: .14em; color: rgba(243, 236, 224, .78); }
+.ex h3 { margin-top: 20px; font-size: clamp(19px, 1.5vw, 22px); letter-spacing: .1em; line-height: 1.45; }
+.ex p { margin-top: 8px; max-width: 32em; font-size: 15px; line-height: 1.85; color: var(--muted); }
+.ex .link-arrow { margin-top: 14px; }
+.mini-poster { position: absolute; top: 8%; bottom: 8%; left: 50%; aspect-ratio: 2 / 3; transform: translateX(-50%); overflow: hidden; box-shadow: 0 20px 40px -20px rgba(0, 0, 0, .7); }
+.mini-poster img { width: 100%; height: 100%; object-fit: cover; }
+.mini-poster::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(29, 27, 26, .7), rgba(29, 27, 26, 0) 40%); }
+.mini-poster span { position: absolute; z-index: 1; top: 8%; right: 9%; writing-mode: vertical-rl; color: var(--ivory); font-size: clamp(16px, 1.5vw, 22px); letter-spacing: .3em; }
+.mini-poster i { position: absolute; z-index: 1; left: 0; right: 0; bottom: 6%; text-align: center; font-style: normal; font-size: 8px; letter-spacing: .12em; color: rgba(243, 236, 224, .75); }
+.ex-grain .cover { filter: contrast(1.04); }
+
+/* ---------- 06 compare ---------- */
+.cmp-wrap { overflow-x: auto; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); }
+.cmp { width: 100%; min-width: 880px; border-collapse: collapse; font-size: 15px; line-height: 1.75; letter-spacing: .03em; }
+.cmp th, .cmp td { text-align: left; vertical-align: top; padding: 18px 22px 20px 0; border-top: 1px solid var(--line); }
+.cmp thead th { border-top: 0; padding-top: 0; padding-bottom: 18px; font-size: clamp(17px, 1.35vw, 20px); letter-spacing: .1em; font-weight: 300; vertical-align: bottom; }
+.cmp tbody th { width: 9em; font-weight: 300; font-size: 13.5px; letter-spacing: .16em; color: var(--warm); }
+.cmp td { color: var(--muted); }
+.cmp .us { background: var(--card); color: var(--card-fg); padding-left: 22px; padding-right: 22px; border-top-color: var(--card-line); }
+.cmp td.us + td, .cmp th.us + th { padding-left: 22px; }
+.cmp thead .us { padding-top: 22px; }
+.cmp thead .us small { display: block; margin-top: 4px; font-family: var(--font-latin); font-weight: 500; font-size: 10.5px; letter-spacing: .3em; color: var(--warm); }
+.cmp tbody th, .cmp thead th:first-child { position: sticky; left: 0; z-index: 1; background: var(--bg); }
+
+/* ---------- 07 more ---------- */
+.more-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(36px, 5vw, 56px) clamp(18px, 2.4vw, 32px); }
+.ph { position: relative; overflow: hidden; display: grid; place-items: center; background: var(--card); color: var(--card-faint); }
+.ph::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, transparent 0 16px, rgba(138, 132, 124, .09) 16px 17px); }
+.ph svg { position: relative; width: 30px; height: auto; fill: currentColor; }
+.ph-label { position: absolute; left: 12px; top: 10px; font-size: 11px; letter-spacing: .16em; color: var(--card-faint); }
+.mo-media { aspect-ratio: 4 / 3; }
+.mo-tag { margin-top: 18px; font-size: 12px; letter-spacing: .22em; color: var(--warm); }
+.mo h3 { margin-top: 6px; font-size: clamp(20px, 1.6vw, 24px); letter-spacing: .1em; line-height: 1.4; }
+.mo p { margin-top: 6px; font-size: 15px; line-height: 1.85; color: var(--muted); }
+
+/* ---------- 08 questions deck ---------- */
+.q-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 540px); gap: clamp(40px, 7vw, 110px); align-items: center; }
+.q-rules { margin-top: 36px; display: grid; gap: 0; }
+.q-rules li { padding: 16px 0; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.8; color: var(--muted); }
+.q-rules b { display: block; font-size: 17px; letter-spacing: .08em; color: var(--fg); margin-bottom: 2px; }
+.deck-stack { position: relative; height: clamp(330px, 44vh, 400px); touch-action: pan-y; outline: none; }
+.qcard {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 20px;
+  padding: clamp(24px, 3vw, 38px); transform-origin: 50% 100%; user-select: none;
+  transition: transform .65s var(--ease), opacity .65s var(--ease);
+}
+.qcard::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: rgba(29, 27, 26, 0); transition: background-color .65s var(--ease); }
+.qcard[data-pos="0"] { z-index: 4; transform: none; opacity: 1; }
+.qcard[data-pos="1"] { z-index: 3; transform: translateY(18px) scale(.955); }
+.qcard[data-pos="1"]::after { background: rgba(29, 27, 26, .16); }
+.qcard[data-pos="2"] { z-index: 2; transform: translateY(36px) scale(.91); }
+.qcard[data-pos="2"]::after { background: rgba(29, 27, 26, .3); }
+.qcard[data-pos="far"] { z-index: 1; transform: translateY(36px) scale(.91); opacity: 0; }
+.qcard[data-pos="gone"] { z-index: 5; transform: translateX(-118%) rotate(-7deg); opacity: 0; pointer-events: none; }
+.qc-top { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; letter-spacing: .22em; color: var(--muted); line-height: 1.4; }
+.qc-q { font-size: clamp(21px, 2vw, 29px); line-height: 1.65; letter-spacing: .06em; }
+.qc-foot { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 12.5px; letter-spacing: .14em; color: var(--muted); line-height: 1.5; }
+.qc-tag { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; }
+.deck-ctrl { margin-top: 60px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.deck-btn { padding: 8px 0; background: none; border: 0; cursor: pointer; font-size: 14px; letter-spacing: .2em; color: var(--fg); }
+.deck-btn[disabled] { opacity: .3; cursor: default; }
+.deck-dots { display: flex; align-items: center; gap: 2px; }
+.deck-dots button { position: relative; width: 14px; height: 18px; padding: 0; background: none; border: 0; cursor: pointer; }
+.deck-dots button::before { content: ""; position: absolute; left: 2px; right: 2px; top: 8px; height: 2px; background: var(--faint); transition: background-color .3s var(--ease); }
+.deck-dots button[aria-current="true"]::before { background: var(--fg); }
+.deck-dots .gap { width: 8px; }
+
+/* ---------- 09 process / film strip ---------- */
+.process { overflow: hidden; }
+.process .sec-head { padding: 0; }
+.frame-count { margin-top: 10px; font-family: var(--font-latin); font-weight: 500; font-size: 13px; letter-spacing: .24em; color: var(--warm); font-variant-numeric: lining-nums tabular-nums; }
+.strip { position: relative; margin: 0 calc(-1 * var(--gutter)); padding: 34px 0; }
+.strip::before, .strip::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 12px; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='12'%3E%3Crect x='9' y='1' width='12' height='10' rx='2.5' fill='%23F3ECE0' fill-opacity='.18'/%3E%3C/svg%3E");
+  background-repeat: repeat-x; background-size: 30px 12px;
+}
+.strip::before { top: 10px; }
+.strip::after { bottom: 10px; }
+.strip-track { display: flex; width: max-content; padding: 0 var(--gutter); }
+.frame { width: clamp(300px, 33vw, 500px); min-height: clamp(320px, 46vh, 420px); padding: 30px 34px 32px; display: flex; flex-direction: column; border-left: 1px solid var(--line); }
+.frame:last-child { border-right: 1px solid var(--line); }
+.f-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.f-no { font-family: var(--font-latin); font-weight: 500; font-variant-numeric: lining-nums; font-size: clamp(64px, 6vw, 100px); line-height: .9; color: var(--faint); letter-spacing: -.01em; }
+.f-tag { padding-top: 6px; font-size: 12px; letter-spacing: .2em; color: var(--warm); line-height: 1.5; text-align: right; }
+.f-body { margin-top: auto; padding-top: 34px; }
+.f-title { font-size: clamp(24px, 2vw, 32px); letter-spacing: .14em; line-height: 1.3; }
+.f-text { margin-top: 12px; max-width: 28em; font-size: 15px; line-height: 1.9; letter-spacing: .03em; color: var(--muted); }
+
+/* ---------- 10 likeness ---------- */
+.lk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: clamp(40px, 7vw, 120px); align-items: center; }
+.lk-need { margin-top: 36px; }
+.lk-need-t { font-size: 12.5px; letter-spacing: .24em; color: var(--warm); }
+.lk-need ul { margin-top: 12px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.lk-need li { padding: 16px 0 0; border-top: 1px solid var(--line); font-size: 13.5px; line-height: 1.7; color: var(--muted); }
+.lk-need li b { display: block; font-size: 18px; letter-spacing: .12em; color: var(--fg); margin-bottom: 2px; }
+.lk-need .small { margin-top: 18px; font-size: 14px; color: var(--muted); }
+.ba { position: relative; aspect-ratio: 2 / 3; overflow: hidden; --pos: 50%; background: var(--card); user-select: none; touch-action: pan-y; }
+.ba-after, .ba-before { position: absolute; inset: 0; }
+.ba-after img { width: 100%; height: 100%; object-fit: cover; }
+.ba-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); background: var(--ivory); color: var(--ink); display: grid; place-items: center; }
+.ba-before::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, transparent 0 16px, rgba(138, 132, 124, .12) 16px 17px); }
+.ba-ph { position: relative; display: grid; justify-items: center; gap: 14px; text-align: center; padding: 0 12%; }
+.ba-ph svg { width: 120px; height: auto; fill: none; stroke: var(--warm); stroke-width: 1.4; }
+.ba-ph b { font-size: 17px; letter-spacing: .16em; }
+.ba-ph span { font-size: 12.5px; letter-spacing: .1em; color: rgba(29, 27, 26, .6); line-height: 1.7; }
+.ba-handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 1px; margin-left: -.5px; background: var(--ivory); pointer-events: none; box-shadow: 0 0 0 .5px rgba(29, 27, 26, .25); }
+.ba-handle i { position: absolute; top: 50%; left: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; background: var(--ivory); box-shadow: 0 8px 24px rgba(0, 0, 0, .28); }
+.ba-handle i::before, .ba-handle i::after { content: ""; position: absolute; top: 50%; margin-top: -5px; border: 5px solid transparent; }
+.ba-handle i::before { left: 9px; border-right-color: var(--ink); }
+.ba-handle i::after { right: 9px; border-left-color: var(--ink); }
+.ba-range { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+.ba-label { position: absolute; z-index: 2; top: 12px; padding: 4px 10px; font-size: 12px; letter-spacing: .16em; line-height: 1.4; background: rgba(29, 27, 26, .6); color: var(--ivory); }
+.ba-label.l { left: 12px; }
+.ba-label.r { right: 12px; }
+.ba-cap { margin-top: 14px; font-size: 13px; letter-spacing: .06em; line-height: 1.7; color: var(--muted); }
+
+/* ---------- 11 team ---------- */
+.team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
+.tm-photo { aspect-ratio: 4 / 5; }
+.tm-role { margin-top: 18px; font-size: 12.5px; letter-spacing: .24em; color: var(--warm); }
+.tm-name { margin-top: 4px; font-size: clamp(20px, 1.6vw, 24px); letter-spacing: .12em; line-height: 1.4; }
+.tm-desc { margin-top: 8px; font-size: 15px; line-height: 1.85; color: var(--muted); }
+
+/* ---------- 12 rules ---------- */
+.rule-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 6vw, 96px); }
+.rule-list li { position: relative; display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 16px; padding: 26px 0 30px; }
+.rule-list .rl { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--line); transform-origin: left center; }
+.rule-list .r-no { grid-row: span 2; font-family: var(--font-latin); font-weight: 500; font-size: 15px; letter-spacing: .12em; color: var(--warm); line-height: 1.6; }
+.rule-list h3 { font-size: clamp(19px, 1.5vw, 22px); letter-spacing: .1em; line-height: 1.45; }
+.rule-list p { margin-top: 6px; font-size: 15px; line-height: 1.85; letter-spacing: .03em; color: var(--muted); }
+
+/* ---------- 13 faq accordion ---------- */
+.acc { max-width: 1000px; border-top: 1px solid var(--line); }
+.acc-item { border-bottom: 1px solid var(--line); }
+.acc-item h3 { font-size: inherit; }
+.acc-q { width: 100%; display: flex; align-items: center; gap: 14px; padding: 24px 0; background: none; border: 0; cursor: pointer; text-align: left; color: var(--fg); font-size: clamp(18px, 1.45vw, 21px); letter-spacing: .06em; line-height: 1.5; }
+.acc-q .latin { flex: none; width: 24px; font-style: italic; color: var(--warm); }
+.acc-ic { position: relative; flex: none; width: 14px; height: 14px; margin-left: auto; }
+.acc-ic::before, .acc-ic::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: currentColor; transition: transform .45s var(--ease); }
+.acc-ic::after { transform: rotate(90deg); }
+.acc-item.open .acc-ic::after { transform: rotate(0deg); }
+.acc-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s var(--ease); }
+.acc-item.open .acc-a { grid-template-rows: 1fr; }
+.acc-a > div { overflow: hidden; visibility: hidden; transition: visibility 0s .45s; }
+.acc-item.open .acc-a > div { visibility: visible; transition: visibility 0s; }
+.acc-a p { padding: 0 40px 26px 38px; max-width: 46em; font-size: 15.5px; line-height: 1.9; letter-spacing: .03em; color: var(--muted); }
+
+/* ---------- 14 partner ---------- */
+.partner-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+.partner-grid .lede { margin-top: 24px; }
+.partner-grid .link-arrow { margin-top: 36px; }
+.terms { border-top: 1px solid var(--line); }
+.terms div { display: grid; grid-template-columns: 8em minmax(0, 1fr); gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.terms dt { font-size: 13px; letter-spacing: .24em; color: var(--warm); line-height: 1.9; }
+.terms dd { font-size: clamp(17px, 1.3vw, 19px); letter-spacing: .06em; line-height: 1.7; }
+
+/* ---------- 15 booking ---------- */
+.premiere { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px clamp(24px, 4vw, 56px); align-items: center; padding: clamp(24px, 3vw, 36px); margin-bottom: clamp(64px, 10vh, 112px); }
+.premiere svg { width: 64px; height: 64px; fill: var(--fg); }
+.premiere .eyebrow { margin-bottom: 6px; }
+.premiere h3 { font-size: clamp(22px, 2vw, 30px); letter-spacing: .1em; line-height: 1.4; }
+.premiere p.pr-text { margin-top: 8px; max-width: 40em; font-size: 15px; line-height: 1.85; color: var(--muted); }
+.booking-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: clamp(40px, 6vw, 104px); align-items: start; }
+.booking-intro .lede { margin-top: 24px; }
+.book-form { margin-top: 44px; display: grid; gap: 26px; }
+.book-side { position: sticky; top: 100px; display: grid; gap: 20px; }
+.preview {
+  --notch: 11px; --stub: 78px; position: relative;
+  -webkit-mask: radial-gradient(circle at 0 calc(100% - var(--stub)), transparent var(--notch), #000 calc(var(--notch) + .5px)) 0 0 / 51% 100% no-repeat, radial-gradient(circle at 100% calc(100% - var(--stub)), transparent var(--notch), #000 calc(var(--notch) + .5px)) 100% 0 / 51% 100% no-repeat;
+  mask: radial-gradient(circle at 0 calc(100% - var(--stub)), transparent var(--notch), #000 calc(var(--notch) + .5px)) 0 0 / 51% 100% no-repeat, radial-gradient(circle at 100% calc(100% - var(--stub)), transparent var(--notch), #000 calc(var(--notch) + .5px)) 100% 0 / 51% 100% no-repeat;
+}
+.pv-main { padding: 26px 28px; }
+.pv-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12.5px; letter-spacing: .24em; color: var(--warm); line-height: 1.4; }
+.pv-tag { font-size: 11.5px; letter-spacing: .2em; padding: 4px 8px 4px 10px; border: 1px solid var(--line); border-radius: 999px; }
+.pv-msg { margin-top: 18px; min-height: 5.8em; font-size: 17px; line-height: 1.95; letter-spacing: .04em; word-break: break-word; }
+.pv-msg.is-example { color: var(--faint); }
+.pv-actions { margin-top: 22px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.pv-status { font-size: 13px; letter-spacing: .06em; color: var(--muted); line-height: 1.6; min-height: 1.6em; }
+.pv-stub { height: var(--stub); margin: 0 var(--notch); padding: 0 calc(28px - var(--notch)); display: flex; align-items: center; gap: 14px; border-top: 1px dashed var(--line); font-size: 13px; letter-spacing: .12em; color: var(--muted); line-height: 1.6; }
+.pv-stub svg { width: 34px; height: 34px; fill: var(--fg); flex: none; }
+.wecom { display: flex; align-items: center; gap: 18px; padding: 20px 22px; border: 1px dashed var(--line); }
+.wecom svg { width: 56px; height: 56px; fill: var(--fg); flex: none; }
+.wecom b { display: block; font-size: 17px; letter-spacing: .14em; line-height: 1.5; }
+.wecom span { display: block; margin-top: 2px; font-size: 13px; letter-spacing: .06em; color: var(--warm); line-height: 1.6; }
+
+/* ---------- credits ---------- */
+.credits { padding-bottom: 140px; text-align: center; }
+.closing { font-size: clamp(28px, 3.8vw, 58px); letter-spacing: .14em; line-height: 1.55; }
+.roll { margin: clamp(64px, 11vh, 120px) auto 0; display: grid; gap: 16px; max-width: 760px; }
+.roll div { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; font-size: 15px; letter-spacing: .2em; line-height: 1.7; }
+.roll dt { text-align: right; color: var(--warm); }
+.roll dd { text-align: left; }
+.seal { width: 112px; height: 112px; margin: clamp(64px, 10vh, 112px) auto 0; fill: var(--ivory); }
+.legal { margin-top: 48px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; font-size: 12.5px; letter-spacing: .1em; color: var(--warm); line-height: 1.7; }
+.the-end { margin-top: 26px; font-size: 12px; letter-spacing: .5em; padding-left: .5em; color: rgba(243, 236, 224, .42); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1180px) {
+  .tickets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ticket { min-height: 500px; }
+  .menu-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 40px; }
+  .calc { grid-template-columns: minmax(0, 1fr) auto; }
+  .calc-head { grid-column: 1 / -1; }
+}
+@media (max-width: 899px) {
+  .hud { display: none; }
+  .sec-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .act-head { grid-template-columns: minmax(0, 1fr); }
+  .act-line { text-align: left; }
+  .screen-grid { grid-template-columns: minmax(0, 1fr); }
+  .v-title { grid-column: 1; grid-row: 1; justify-self: end; font-size: clamp(34px, 9.6vw, 52px); }
+  .screen-copy { grid-row: 2; }
+  .diffs { grid-row: 3; grid-template-columns: minmax(0, 1fr); margin-top: 48px; gap: 0; }
+  .diffs li { padding: 20px 0 24px; }
+  .chapters { display: flex; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); }
+  .chapters::-webkit-scrollbar { display: none; }
+  .chapters li { flex: 0 0 auto; }
+  .chapters button { padding-right: 22px; white-space: nowrap; }
+  .posters, .more-grid, .team-grid, .tickets { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 6px; scrollbar-width: none; }
+  .posters::-webkit-scrollbar, .more-grid::-webkit-scrollbar, .team-grid::-webkit-scrollbar, .tickets::-webkit-scrollbar { display: none; }
+  .poster { flex: 0 0 min(74vw, 340px); scroll-snap-align: center; margin-top: 0 !important; }
+  .mo, .tm { flex: 0 0 min(74vw, 320px); scroll-snap-align: start; }
+  .ticket { flex: 0 0 min(80vw, 330px); scroll-snap-align: center; min-height: 0; }
+  .swipe-hint { display: block; }
+  .sample-end { justify-content: flex-start; }
+  .pm-grid, .q-grid, .lk-grid, .partner-grid, .booking-grid { grid-template-columns: minmax(0, 1fr); }
+  .pm-stage { order: -1; max-width: 360px; width: 100%; margin: 0 auto; }
+  .extras-grid { grid-template-columns: minmax(0, 1fr); }
+  .calc { grid-template-columns: minmax(0, 1fr); }
+  .calc-out { text-align: left; }
+  .strip { margin: 0 calc(-1 * var(--gutter)); padding: 22px 0 10px; }
+  .strip::before, .strip::after { display: none; }
+  .strip-track { flex-direction: column; width: auto; padding: 0 var(--gutter); }
+  .frame { width: auto; min-height: 0; padding: 22px 0 26px; border-left: 0; border-top: 1px solid var(--line); }
+  .frame:first-child { border-top: 0; }
+  .frame:last-child { border-right: 0; }
+  .f-no { font-size: 52px; }
+  .f-body { padding-top: 14px; }
+  .frame-count { display: none; }
+  .rule-list { grid-template-columns: minmax(0, 1fr); }
+  .book-side { position: static; }
+  .menu-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; }
+  .premiere { grid-template-columns: minmax(0, 1fr); }
+  .premiere svg { width: 48px; height: 48px; }
+}
+@media (max-width: 759px) {
+  .topbar { height: 62px; }
+  .top-actions { gap: 16px; }
+  .lockup .lk-text, .lockup .lk-div { display: none; }
+  .sec { padding-top: clamp(80px, 12vh, 112px); padding-bottom: clamp(80px, 12vh, 112px); }
+  .hero-foot { flex-direction: column; align-items: center; text-align: center; gap: 22px; }
+  .hero-lede { font-size: 18px; }
+  .hero-hint { display: none; }
+  .act-word { font-size: clamp(60px, 19vw, 96px); }
+  .field-row { grid-template-columns: minmax(0, 1fr); }
+  .lk-need ul { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .deck-ctrl { margin-top: 52px; }
+  .deck-dots { display: none; }
+  .roll { gap: 18px; }
+  .roll div { grid-template-columns: minmax(0, 1fr); gap: 2px; font-size: 14px; letter-spacing: .14em; }
+  .roll dt, .roll dd { text-align: center; }
+  .roll dt { font-size: 12.5px; }
+  .pill a { padding: 8px 12px 8px 14px; letter-spacing: .2em; }
+  .terms div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .menu-cols { grid-template-columns: minmax(0, 1fr); gap: 26px; padding: 28px 0; }
+  .menu-foot { flex-direction: column; align-items: flex-start; }
+  .pl-time { display: none; }
+  .acc-a p { padding: 0 0 24px 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body data-top="ink" data-bot="ink">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-key" viewBox="0 0 100 168"><path fill-rule="evenodd" d="%%KEY_D%%"/></symbol>
+  <symbol id="i-icon" viewBox="0 0 100 168"><path fill-rule="evenodd" d="%%ICON_D%%"/></symbol>
+  <symbol id="i-seal" viewBox="0 0 219 219"><path fill-rule="evenodd" d="%%SEAL_D%%"/></symbol>
+</svg>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><i class="progress-fill"></i></div>
+
+<header class="topbar">
+  <a class="lockup" href="#top" aria-label="只映给你，回到开头">
+    <svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg>
+    <span class="lk-div"></span>
+    <span class="lk-text"><span class="lk-cn">只映给你</span><span class="lk-en">PRIVATE SCREENING</span></span>
+  </a>
+  <div class="top-actions">
+    <button class="menu-btn" type="button" aria-controls="menu" aria-expanded="false"><span class="mb" aria-hidden="true"></span>节目单</button>
+    <a class="btn btn-sm" href="#booking"><span>预约放映</span></a>
+  </div>
+</header>
+
+<nav class="pill" aria-label="按幕跳转">
+  <a href="#cinema" data-act="1">看片</a>
+  <a href="#pricing" data-act="2">选片</a>
+  <a href="#questions" data-act="3">怎么做</a>
+  <a href="#booking" data-act="4">预约</a>
+</nav>
+
+<div class="hud" aria-hidden="true"><span class="tc">TC 00:00:00:00</span><span class="scene">序幕 · SC.00 入场</span></div>
+
+<div class="menu tone-ink" id="menu" role="dialog" aria-modal="true" aria-label="节目单" data-lenis-prevent hidden>
+  <div class="menu-in">
+    <div class="menu-top">
+      <p class="eyebrow">节目单 · <span class="latin">PROGRAMME</span></p>
+      <button class="menu-close" type="button">关闭</button>
+    </div>
+    <div class="menu-cols">
+      <div class="mc"><p class="mc-act"><span class="latin">PROLOGUE</span>序幕</p><ol><li><a href="#top"><span class="num">00</span>入场</a></li><li><a href="#screen"><span class="num">01</span>银幕</a></li></ol></div>
+      <div class="mc"><p class="mc-act"><span class="latin">ACT I</span>第一幕 · 看片</p><ol><li><a href="#cinema"><span class="num">02</span>放映厅</a></li><li><a href="#poster"><span class="num">03</span>你们的海报</a></li></ol></div>
+      <div class="mc"><p class="mc-act"><span class="latin">ACT II</span>第二幕 · 选片</p><ol><li><a href="#pricing"><span class="num">04</span>片单与票价</a></li><li><a href="#extras"><span class="num">05</span>每一单都附带</a></li><li><a href="#compare"><span class="num">06</span>比一比</a></li><li><a href="#more"><span class="num">07</span>不只是婚礼</a></li></ol></div>
+      <div class="mc"><p class="mc-act"><span class="latin">ACT III</span>第三幕 · 怎么做</p><ol><li><a href="#questions"><span class="num">08</span>十二个问题</a></li><li><a href="#process"><span class="num">09</span>五个步骤</a></li><li><a href="#likeness"><span class="num">10</span>像不像</a></li><li><a href="#team"><span class="num">11</span>幕后</a></li><li><a href="#rules"><span class="num">12</span>放映守则</a></li></ol></div>
+      <div class="mc"><p class="mc-act"><span class="latin">ACT IV</span>第四幕 · 预约</p><ol><li><a href="#faq"><span class="num">13</span>问答</a></li><li><a href="#partner"><span class="num">14</span>合作</a></li><li><a href="#booking"><span class="num">15</span>预约</a></li></ol></div>
+    </div>
+    <div class="menu-foot">
+      <a class="btn btn-sm" href="#booking"><span>预约放映</span></a>
+      <p>全片约 03:00 · 只映给你 <span class="latin">PRIVATE SCREENING</span></p>
+    </div>
+  </div>
+</div>
+
+<main>
+  <!-- 序幕 -->
+  <section class="hero" id="top" data-bg="ink" data-scene="SC.00 入场" data-act="0">
+    <div class="hero-stage">
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <svg class="hero-fallback" viewBox="0 0 100 168" aria-hidden="true"><use href="#i-key"/></svg>
+      <div class="hero-ui">
+        <div class="hero-name">
+          <h1 class="hero-cn" aria-label="只映给你"><span aria-hidden="true">只</span><span aria-hidden="true">映</span><span aria-hidden="true">给</span><span aria-hidden="true">你</span></h1>
+          <span class="hero-rule" aria-hidden="true"></span>
+          <p class="hero-en">PRIVATE SCREENING</p>
+        </div>
+        <div class="hero-foot">
+          <p class="hero-lede">把你们的爱情故事，<br>做成一部电影。</p>
+          <div class="hero-actions">
+            <a class="btn btn-solid" href="#booking"><span>预约放映</span></a>
+            <a class="link-arrow" href="#cinema">先看样片<span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <p class="hero-hint" aria-hidden="true"><span>向下滚动 · 入场</span><i></i></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec screen" id="screen" data-bg="ivory" data-scene="SC.01 银幕" data-act="0">
+    <div class="wrap screen-grid">
+      <h2 class="v-title" aria-label="把你们的爱情故事，做成一部电影。">
+        <span class="v-col" aria-hidden="true">把你们的爱情故事，</span>
+        <span class="v-col" aria-hidden="true">做成一部电影。</span>
+      </h2>
+      <div class="screen-copy">
+        <p class="eyebrow">[ 01 · 银幕 ]</p>
+        <p class="manifesto">婚礼当天，大屏亮起来，放一部有开场、有剧情、有结尾的短片，主角是你们两个。你们讲故事，我们把它做成电影。</p>
+      </div>
+      <ul class="diffs" data-stagger>
+        <li><h3>卖故事，不卖图</h3><p>专属版和定制版的剧本，从你们的真实经历里来。</p></li>
+        <li><h3>不用请假跑外景</h3><p>也不用对着镜头摆姿势。价格只是实拍微电影的一部分。</p></li>
+        <li><h3>有人听，有人把关</h3><p>有人听你们讲、写成剧本，也有人对照照片，把关像不像本人。</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 第一幕 · 看片 -->
+  <section class="sec cinema" id="cinema" data-bg="ink" data-scene="SC.02 放映厅" data-act="1">
+    <div class="wrap">
+      <div class="act-head">
+        <p class="act-no"><span class="latin">ACT I</span>第一幕</p>
+        <p class="act-word split-act">看片</p>
+        <p class="act-line">先看片，再说别的。</p>
+      </div>
+      <header class="sec-head">
+        <div>
+          <p class="eyebrow">[ 02 · 放映厅 ]</p>
+          <h2 class="title split">样片《红绳》</h2>
+        </div>
+        <p class="lede">我们自己做的样片。第一世，凤冠团扇，落花石桥；第三世，一辆单车，红绳还系在手腕上。</p>
+      </header>
+      <div class="player" id="player" data-duration="25.6" data-reveal>
+        <video class="pl-video" src="assets/video/redline-preview.mp4" poster="assets/img/player-poster.webp" playsinline preload="metadata"></video>
+        <button class="pl-start" type="button" aria-label="播放样片《红绳》">
+          <span class="pl-ring" aria-hidden="true"><svg viewBox="0 0 10 12"><path d="M0 0 L10 6 L0 12 Z"/></svg></span>
+          <span class="pl-start-text"><span class="pl-start-label">放映《红绳》</span><small>PLAY · 00:26</small></span>
+        </button>
+        <span class="pl-tag">占位预览 · 待换成《红绳》成片</span>
+        <div class="pl-ui">
+          <button class="pl-toggle" type="button" aria-label="播放"><svg class="i-play" viewBox="0 0 10 12"><path d="M0 0 L10 6 L0 12 Z"/></svg><svg class="i-pause" viewBox="0 0 10 12"><path d="M0 0h3.4v12H0zM6.6 0H10v12H6.6z"/></svg></button>
+          <span class="pl-time num">00:00 / 00:26</span>
+          <div class="pl-track" role="slider" tabindex="0" aria-label="播放进度" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0"><span class="pl-marks"></span><i class="pl-fill"></i></div>
+          <button class="pl-full" type="button" aria-label="全屏"><svg viewBox="0 0 12 12"><path d="M0 0h4.5v1.4H1.4v3.1H0zM7.5 0H12v4.5h-1.4V1.4H7.5zM0 7.5h1.4v3.1h3.1V12H0zM10.6 7.5H12V12H7.5v-1.4h3.1z"/></svg></button>
+        </div>
+      </div>
+      <ol class="chapters" aria-label="章节">
+        <li><button type="button" data-t="0"><span class="num">00:00</span>片头</button></li>
+        <li><button type="button" data-t="4.4"><span class="num">00:04</span>第一世 · 凤冠团扇</button></li>
+        <li><button type="button" data-t="8.8"><span class="num">00:09</span>第一世 · 落花石桥</button></li>
+        <li><button type="button" data-t="13.2"><span class="num">00:13</span>第三世 · 单车</button></li>
+        <li><button type="button" data-t="17.6"><span class="num">00:18</span>片尾</button></li>
+      </ol>
+      <div class="stills-head"><p class="eyebrow">剧照</p><p class="eyebrow">STILLS · 3</p></div>
+      <div class="posters">
+        <figure class="poster lead">
+          <div class="poster-frame">
+            <img src="assets/img/redline-1.webp" width="720" height="1080" alt="样片《红绳》剧照：第一世，戴凤冠的新娘手持绣着牡丹的团扇" loading="lazy">
+            <div class="poster-type" aria-hidden="true"><span class="pt-title">红绳</span><span class="pt-sub">只映给你出品</span></div>
+            <span class="ai-tag">本片含 AI 生成内容</span>
+          </div>
+          <figcaption><b>第一世</b><span>凤冠团扇</span></figcaption>
+        </figure>
+        <figure class="poster">
+          <div class="poster-frame">
+            <img src="assets/img/redline-2.webp" width="720" height="1080" alt="样片《红绳》剧照：第一世，穿红色婚服的新人牵手走过石桥，花瓣飘落" loading="lazy">
+            <span class="ai-tag">本片含 AI 生成内容</span>
+          </div>
+          <figcaption><b>第一世</b><span>落花石桥</span></figcaption>
+        </figure>
+        <figure class="poster">
+          <div class="poster-frame">
+            <img src="assets/img/redline-3.webp" width="720" height="1080" alt="样片《红绳》剧照：第三世，白衬衫男生骑单车载着女生，她手腕上系着红绳" loading="lazy">
+            <span class="ai-tag">本片含 AI 生成内容</span>
+          </div>
+          <figcaption><b>第三世</b><span>单车</span></figcaption>
+        </figure>
+      </div>
+      <div class="sample-end"><p class="split">你们的那一部，主演是你们自己。</p></div>
+    </div>
+  </section>
+
+  <section class="sec postermaker" id="poster" data-bg="ivory" data-scene="SC.03 你们的海报" data-act="1">
+    <div class="wrap pm-grid">
+      <div class="pm-copy">
+        <p class="eyebrow">[ 03 · 你们的海报 ]</p>
+        <h2 class="title split">换上你们的名字</h2>
+        <p class="lede">每一单都送一张专属电影海报。先在这里试试：填上名字和婚期，换张剧照，换个版式。正式下单后，海报用你们片子里的剧照来做。</p>
+        <form class="pm-form" id="pm" novalidate>
+          <div class="field-row">
+            <div class="field"><label for="pm-a">你的称呼</label><input type="text" id="pm-a" maxlength="6" autocomplete="off" placeholder="小林"></div>
+            <div class="field"><label for="pm-b">TA 的称呼</label><input type="text" id="pm-b" maxlength="6" autocomplete="off" placeholder="阿青"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label for="pm-title">片名</label><input type="text" id="pm-title" maxlength="6" autocomplete="off" placeholder="初见"></div>
+            <div class="field"><label for="pm-date">首映日（婚期）</label><input type="date" id="pm-date"></div>
+          </div>
+          <fieldset class="field">
+            <legend>剧照</legend>
+            <div class="chips">
+              <input type="radio" name="pm-tpl" id="pt1" value="1" checked><label for="pt1">凤冠团扇</label>
+              <input type="radio" name="pm-tpl" id="pt2" value="2"><label for="pt2">落花石桥</label>
+              <input type="radio" name="pm-tpl" id="pt3" value="3"><label for="pt3">单车</label>
+              <input type="radio" name="pm-tpl" id="pt4" value="4"><label for="pt4">纯字版</label>
+            </div>
+          </fieldset>
+          <fieldset class="field">
+            <legend>版式</legend>
+            <div class="chips">
+              <input type="radio" name="pm-lay" id="pl1" value="v" checked><label for="pl1">竖排题字</label>
+              <input type="radio" name="pm-lay" id="pl2" value="c"><label for="pl2">院线居中</label>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="pm-stage">
+        <figure class="pm-poster" data-tpl="1" data-side="r" data-layout="v" aria-label="海报预览">
+          <img class="pm-img" src="assets/img/redline-1.webp" width="720" height="1080" alt="" loading="lazy">
+          <div class="pm-shade"></div>
+          <div class="pm-key" aria-hidden="true"><svg viewBox="0 0 100 168"><use href="#i-key"/></svg></div>
+          <div class="pm-v"><span class="pm-title-v">初见</span><span class="pm-sub-v">只映给你出品</span></div>
+          <div class="pm-c"><span class="pm-title-c">初见</span><small>只映给你出品</small></div>
+          <div class="pm-foot">
+            <p class="pm-cast"><span>主演</span><b class="pm-names">小林　阿青</b></p>
+            <p class="pm-date"><span class="num pm-date-text">2027.05.20</span>　首映</p>
+            <p class="pm-brand"><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg>只映给你 · <span class="latin">PRIVATE SCREENING</span></p>
+            <p class="pm-ai">本片含 AI 生成内容</p>
+          </div>
+        </figure>
+        <p class="pm-hint">截图就能保存。示意用的是样片《红绳》的剧照。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第二幕 · 选片 -->
+  <section class="sec pricing" id="pricing" data-bg="ink" data-scene="SC.04 片单与票价" data-act="2">
+    <div class="wrap">
+      <div class="act-head">
+        <p class="act-no"><span class="latin">ACT II</span>第二幕</p>
+        <p class="act-word split-act">选片</p>
+        <p class="act-line">片长、价格、附带什么，一次看清。</p>
+      </div>
+      <header class="sec-head">
+        <div>
+          <p class="eyebrow">[ 04 · 片单与票价 ]</p>
+          <h2 class="title split">片单与票价</h2>
+        </div>
+        <p class="lede">从 15 秒的预告，到 3 分钟起的定制版。成片都在线上交付。</p>
+      </header>
+      <ol class="tickets" data-stagger>
+        <li class="ticket inv">
+          <div class="t-main">
+            <p class="t-no">No.01</p>
+            <h3 class="t-name">预告片体验版<span class="latin">TRAILER</span></h3>
+            <p class="t-run">片长 15 秒</p>
+            <div class="t-price"><p class="p"><span class="y">¥</span>99</p></div>
+            <ul class="t-list"><li>先看 15 秒，再决定做不做正片</li><li>交付前可退，交付后不退</li><li>升级任一正片，99 元全额抵扣</li></ul>
+          </div>
+          <div class="t-stub"><span class="latin">PRIVATE SCREENING</span><span>主演 · 两位</span></div>
+        </li>
+        <li class="ticket inv">
+          <div class="t-main">
+            <p class="t-no">No.02</p>
+            <h3 class="t-name">基础版<span class="latin">STANDARD</span></h3>
+            <p class="t-run">片长 90 秒 / 150 秒</p>
+            <div class="t-price two"><p class="p"><span class="y">¥</span>799<small>90 秒</small></p><p class="p"><span class="y">¥</span>1,199<small>150 秒</small></p></div>
+            <ul class="t-list"><li>不用访谈，交照片就行</li><li>从剧本模板里挑一个故事</li></ul>
+          </div>
+          <div class="t-stub"><span class="latin">PRIVATE SCREENING</span><span>主演 · 两位</span></div>
+        </li>
+        <li class="ticket inv">
+          <div class="t-main">
+            <p class="t-no">No.03</p>
+            <h3 class="t-name">专属版<span class="latin">EXCLUSIVE</span></h3>
+            <p class="t-run">片长 2 分钟起</p>
+            <div class="t-price"><p class="p"><span class="y">¥</span>2,199</p></div>
+            <p class="t-extra">每加 1 分钟 ¥999</p>
+            <ul class="t-list"><li>精简问卷，花 10 到 15 分钟</li><li>一页大纲，你们确认了才开工</li><li>剧本阶段可改 2 轮</li></ul>
+          </div>
+          <div class="t-stub"><span class="latin">PRIVATE SCREENING</span><span>主演 · 两位</span></div>
+        </li>
+        <li class="ticket inv sig">
+          <div class="t-main">
+            <p class="t-no">No.04</p>
+            <svg class="t-seal" viewBox="0 0 219 219" aria-hidden="true"><use href="#i-seal"/></svg>
+            <h3 class="t-name">定制版 · 招牌款<span class="latin">SIGNATURE</span></h3>
+            <p class="t-run">片长 3 分钟起</p>
+            <div class="t-price"><p class="p"><span class="y">¥</span>3,999</p></div>
+            <p class="t-extra">每加 1 分钟 ¥1,299</p>
+            <ul class="t-list"><li>完整问卷，可加 15 分钟补问</li><li>一页大纲，你们确认了才开工</li><li>剧本阶段可改 2 轮</li></ul>
+          </div>
+          <div class="t-stub"><span class="latin">PRIVATE SCREENING</span><span>主演 · 两位</span></div>
+        </li>
+      </ol>
+      <p class="swipe-hint">左右滑动，看四种票 →</p>
+      <form class="calc" id="calc" novalidate data-reveal>
+        <div class="calc-head"><p class="eyebrow">算一算</p><p>选版本、拖片长，直接看总价。</p></div>
+        <div class="calc-body">
+          <div class="chips" role="radiogroup" aria-label="版本">
+            <input type="radio" name="calc-v" id="cv1" value="b90"><label for="cv1">基础版 90 秒</label>
+            <input type="radio" name="calc-v" id="cv2" value="b150"><label for="cv2">基础版 150 秒</label>
+            <input type="radio" name="calc-v" id="cv3" value="ex"><label for="cv3">专属版</label>
+            <input type="radio" name="calc-v" id="cv4" value="sig" checked><label for="cv4">定制版</label>
+          </div>
+          <div class="calc-len"><label for="calc-min">片长</label><input type="range" id="calc-min" min="3" max="10" step="1" value="5"><output for="calc-min" class="num">5 分钟</output></div>
+          <label class="check" for="calc-trailer"><input type="checkbox" id="calc-trailer">先买过 99 元预告片</label>
+        </div>
+        <div class="calc-out" aria-live="polite"><p class="calc-total">¥6,597</p><p class="calc-formula num">3,999 + 2 × 1,299 = 6,597</p></div>
+      </form>
+      <p class="fine">每一部都含一次整体修改和两次片段修改，每次片段累计不超过 15 秒。收片后 3 个工作日内验收，对照你们的照片，人物和场景还原度不低于 90%，没达到的返工不算修改次数。定金不超过总价的 20%。</p>
+    </div>
+  </section>
+
+  <section class="sec extras" id="extras" data-bg="ivory" data-scene="SC.05 每一单都附带" data-act="2">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="eyebrow">[ 05 · 附带 ]</p>
+          <h2 class="title split">每一单都附带</h2>
+        </div>
+        <p class="lede">正片之外，这四样每一单都有。片子放在一起，看得出是同一个片厂出品。</p>
+      </header>
+      <div class="extras-grid" data-stagger>
+        <article class="ex">
+          <div class="ex-media">
+            <div class="mini-poster"><img src="assets/img/redline-2.webp" alt="" loading="lazy"><span>红绳</span><i>本片含 AI 生成内容</i></div>
+          </div>
+          <h3>专属电影海报</h3>
+          <p>从你们的片子里挑剧照，竖排题字，底部标注「本片含 AI 生成内容」。</p>
+          <a class="link-arrow" href="#poster">先做一张试试<span aria-hidden="true">→</span></a>
+        </article>
+        <article class="ex">
+          <div class="ex-media"><video src="assets/video/intro-5s.mp4" poster="assets/img/intro-poster.webp" muted loop playsinline preload="none" data-autoplay aria-label="5 秒片头"></video><span class="ex-len num">00:05</span></div>
+          <h3>5 秒片头</h3>
+          <p>镜头先亮起，光束往下展开成锁孔，再出现「只映给你」。第一帧起就标注「本片含 AI 生成内容」。</p>
+        </article>
+        <article class="ex">
+          <div class="ex-media"><video src="assets/video/outro-8s.mp4" poster="assets/img/outro-poster.webp" muted loop playsinline preload="none" data-autoplay aria-label="8 秒片尾"></video><span class="ex-len num">00:08</span></div>
+          <h3>8 秒片尾</h3>
+          <p>锁孔和「只映给你」，停几秒后淡出。</p>
+        </article>
+        <article class="ex ex-grain">
+          <div class="ex-media"><img class="cover" src="assets/img/detail-redstring.webp" alt="《红绳》剧照局部：手腕上的红绳" loading="lazy"></div>
+          <h3>统一的胶片颗粒和调色</h3>
+          <p>每一部用同一套颗粒和调色，暖一点、颗粒细一点，像胶片放出来的样子。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec compare" id="compare" data-bg="ink" data-scene="SC.06 比一比" data-act="2">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="eyebrow">[ 06 · 比一比 ]</p>
+          <h2 class="title split">和别的做法比一比</h2>
+        </div>
+        <p class="lede">婚礼上想放一段属于你们的影像，常见的有这四种做法。</p>
+      </header>
+      <div class="cmp-wrap" data-reveal>
+        <table class="cmp">
+          <thead>
+            <tr><th scope="col"><span class="sr-only">对比项</span></th><th scope="col" class="us">只映给你<small>PRIVATE SCREENING</small></th><th scope="col">实拍微电影</th><th scope="col">AI 写真</th><th scope="col">模板视频工具</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">你们要做什么</th><td class="us">交照片；专属版和定制版再讲讲你们的故事</td><td>请假、跑外景，对着镜头拍</td><td>交照片</td><td>交照片，自己挑模板</td></tr>
+            <tr><th scope="row">片子里的故事</th><td class="us">专属版和定制版写专属剧本，基础版用剧本模板</td><td>团队来编、来拍</td><td>没有故事，卖的是图</td><td>现成模板</td></tr>
+            <tr><th scope="row">像不像，谁把关</th><td class="us">有人对照照片把关，还原度不低于 90%</td><td>拍的就是本人</td><td>—</td><td>自己看</td></tr>
+            <tr><th scope="row">婚礼上能放什么</th><td class="us">一部有剧情的短片，加专属海报和片头片尾</td><td>一部短片</td><td>一组照片</td><td>一段模板视频</td></tr>
+            <tr><th scope="row">价格参考</th><td class="us">预告片 99 元，正片 799 元起</td><td>以前可能要好几万元</td><td>主流套餐 89–199 元</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="swipe-hint">左右滑动，看完整对比 →</p>
+      <p class="fine">价格参考：实拍和 AI 写真两栏出自新华网《定制AI婚纱照 新人有了新选择》，2026 年 8 月 26 日。</p>
+    </div>
+  </section>
+
+  <section class="sec more" id="more" data-bg="ivory" data-scene="SC.07 不只是婚礼" data-act="2">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="eyebrow">[ 07 · 不只是婚礼 ]</p>
+          <h2 class="title split">不只是婚礼</h2>
+        </div>
+        <p class="lede">求婚、周年、给父母的礼物，也能做成一部片子。这几种可以先来聊，价格按需求报。</p>
+      </header>
+      <ul class="more-grid" data-stagger>
+        <li class="mo"><div class="mo-media ph"><span class="ph-label">示意图 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="mo-tag">价格咨询</p><h3>求婚片</h3><p>求婚那天，先放一部给 TA 看。</p></li>
+        <li class="mo"><div class="mo-media ph"><span class="ph-label">示意图 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="mo-tag">价格咨询</p><h3>周年续集</h3><p>一周年、十周年，给你们的电影接着做续集。</p></li>
+        <li class="mo"><div class="mo-media ph"><span class="ph-label">示意图 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="mo-tag">价格咨询</p><h3>成长片</h3><p>送给父母：把从小到大的照片，做成一部片子。</p></li>
+        <li class="mo"><div class="mo-media ph"><span class="ph-label">示意图 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="mo-tag">价格咨询</p><h3>老照片修复</h3><p>把家里的老照片修复好，放进片中。</p></li>
+        <li class="mo"><div class="mo-media ph"><span class="ph-label">示意图 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="mo-tag">加购 · 即将上线</p><h3>动态请柬</h3><p>会动的电子请柬，提前发给宾客。</p></li>
+        <li class="mo"><div class="mo-media ph"><span class="ph-label">示意图 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="mo-tag">加购 · 即将上线</p><h3>大屏视觉包</h3><p>婚礼当天大屏上的开场和过场画面。</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 第三幕 · 怎么做 -->
+  <section class="sec questions" id="questions" data-bg="ink" data-scene="SC.08 十二个问题" data-act="3">
+    <div class="wrap">
+      <div class="act-head">
+        <p class="act-no"><span class="latin">ACT III</span>第三幕</p>
+        <p class="act-word split-act">怎么做</p>
+        <p class="act-line">从你们的故事，到大屏上的电影。</p>
+      </div>
+      <div class="q-grid">
+        <div class="q-copy">
+          <p class="eyebrow">[ 08 · 十二个问题 ]</p>
+          <h2 class="title split">故事从十二个问题开始</h2>
+          <p class="lede" style="margin-top:24px">下单后，我们在企业微信发问卷，你们用语音回答，每题一分钟左右。大部分一起答，第 9、10 题各自单独答，对方先不看。</p>
+          <ul class="q-rules" data-stagger>
+            <li><b>问具体的事，不问感受</b>「第一次约会吃了什么」能变成一个画面，「感情怎么样」变不成。</li>
+            <li><b>敏感的不主动问</b>前任、家庭矛盾、已故亲人，我们都不问。</li>
+            <li><b>专属版只问其中 5 题</b>第 1、3、4、7、10 题，花 10 到 15 分钟。</li>
+          </ul>
+        </div>
+        <div class="deck" id="deck" data-reveal>
+          <div class="deck-stack" tabindex="0" aria-label="十二个问题，左右方向键翻题">
+            <article class="qcard inv"><p class="qc-top"><span>相遇</span><span class="num">Q.01 / 12</span></p><p class="qc-q">第一次见面在哪？那天的天气、对方穿什么、说了什么，记得多少说多少。</p><p class="qc-foot"><span>一起答</span><span class="qc-tag">专属版也问</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>相遇</span><span class="num">Q.02 / 12</span></p><p class="qc-q">什么时候意识到，就是这个人了？</p><p class="qc-foot"><span>一起答</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>在一起</span><span class="num">Q.03 / 12</span></p><p class="qc-q">第一次约会去了哪、做了什么？</p><p class="qc-foot"><span>一起答</span><span class="qc-tag">专属版也问</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>在一起</span><span class="num">Q.04 / 12</span></p><p class="qc-q">有没有只有你们俩懂的梗、外号或暗号？</p><p class="qc-foot"><span>一起答</span><span class="qc-tag">专属版也问</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>在一起</span><span class="num">Q.05 / 12</span></p><p class="qc-q">最难的一段日子是什么时候，后来怎么走过来的？</p><p class="qc-foot"><span>一起答</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>在一起</span><span class="num">Q.06 / 12</span></p><p class="qc-q">一个很普通、但你一直记得的日常瞬间。</p><p class="qc-foot"><span>一起答</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>现在</span><span class="num">Q.07 / 12</span></p><p class="qc-q">求婚那天发生了什么？有没有计划之外的事？</p><p class="qc-foot"><span>一起答</span><span class="qc-tag">专属版也问</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>现在</span><span class="num">Q.08 / 12</span></p><p class="qc-q">想象十年后的一个周末，你们在做什么？</p><p class="qc-foot"><span>一起答</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>各自单独答</span><span class="num">Q.09 / 12</span></p><p class="qc-q">对方身上，你最喜欢的一个小习惯。</p><p class="qc-foot"><span>对方先不看</span><span>能不能在婚礼上公开，我们会先问你</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>各自单独答</span><span class="num">Q.10 / 12</span></p><p class="qc-q">一句想对 TA 说、但一直没说出口的话。</p><p class="qc-foot"><span>对方先不看</span><span class="qc-tag">专属版也问</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>最后</span><span class="num">Q.11 / 12</span></p><p class="qc-q">喜欢的电影或画面风格，可以发截图。</p><p class="qc-foot"><span>一起答</span></p></article>
+            <article class="qcard inv"><p class="qc-top"><span>最后</span><span class="num">Q.12 / 12</span></p><p class="qc-q">有没有不想出现在片子里的事或人？</p><p class="qc-foot"><span>一起答</span></p></article>
+          </div>
+          <div class="deck-ctrl">
+            <button class="deck-btn deck-prev" type="button">← 上一题</button>
+            <div class="deck-dots" aria-label="跳到第几题"></div>
+            <button class="deck-btn deck-next" type="button">下一题 →</button>
+          </div>
+          <p class="sr-only deck-live" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec process" id="process" data-bg="ivory" data-scene="SC.09 五个步骤" data-act="3">
+    <div class="process-inner">
+      <header class="wrap sec-head">
+        <div>
+          <p class="eyebrow">[ 09 · 五个步骤 ]</p>
+          <h2 class="title split">一部片子，分五步做</h2>
+        </div>
+        <div>
+          <p class="lede">基础版不访谈，交好照片，直接从第 04 步开始。</p>
+          <p class="frame-count" aria-hidden="true">FRAME <span class="fc-now">01</span> / 05</p>
+        </div>
+      </header>
+      <div class="strip inv">
+        <div class="strip-track">
+          <article class="frame"><div class="f-top"><span class="f-no">01</span><span class="f-tag">专属版 · 定制版</span></div><div class="f-body"><h3 class="f-title">讲故事</h3><p class="f-text">下单后，我们发问卷，你们用语音回答，每题一分钟左右。题目就是上面那十二个。</p></div></article>
+          <article class="frame"><div class="f-top"><span class="f-no">02</span><span class="f-tag">定制版 · 可选</span></div><div class="f-body"><h3 class="f-title">补问</h3><p class="f-text">一通 15 分钟的电话，只问问卷里缺的画面细节，不从头再聊。</p></div></article>
+          <article class="frame"><div class="f-top"><span class="f-no">03</span><span class="f-tag">专属版 · 定制版</span></div><div class="f-body"><h3 class="f-title">定大纲</h3><p class="f-text">一页纸写清片名、三幕各一句话、每个场景用哪几张照片。你们确认后才开工，出片周期从这一天算起。</p></div></article>
+          <article class="frame"><div class="f-top"><span class="f-no">04</span><span class="f-tag">全部版本</span></div><div class="f-body"><h3 class="f-title">制作</h3><p class="f-text">先交照片：合照、精修照、全身照。然后做人物、场景、配乐和字幕。配乐只用正版授权曲库。</p></div></article>
+          <article class="frame"><div class="f-top"><span class="f-no">05</span><span class="f-tag">全部版本</span></div><div class="f-body"><h3 class="f-title">首映</h3><p class="f-text">成片线上交付。收片后 3 个工作日内验收，对照照片确认还原度。婚礼当天，在大屏上第一次放给所有人看。</p></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec likeness" id="likeness" data-bg="ink" data-scene="SC.10 像不像" data-act="3">
+    <div class="wrap lk-grid">
+      <div class="lk-copy">
+        <p class="eyebrow">[ 10 · 像不像 ]</p>
+        <h2 class="title split">像不像本人</h2>
+        <p class="lede" style="margin-top:24px">这是我们最在意的事。每一部都对照你们的照片确认，人物和场景还原度不低于 90%，没达到的返工不算修改次数。</p>
+        <div class="lk-need">
+          <p class="lk-need-t">要交的照片</p>
+          <ul data-stagger>
+            <li><b>合照</b>两个人同框</li>
+            <li><b>精修照</b>正脸清楚</li>
+            <li><b>全身照</b>看得到身形</li>
+          </ul>
+          <p class="small">照片越清楚、角度越多，人物越像你们。</p>
+        </div>
+      </div>
+      <div class="ba-wrap" data-reveal>
+        <figure class="ba" id="ba">
+          <div class="ba-after"><img src="assets/img/redline-3.webp" width="720" height="1080" alt="片中剧照示意：《红绳》第三世 · 单车" loading="lazy"><span class="ba-label r">片里的样子</span></div>
+          <div class="ba-before">
+            <div class="ba-ph">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="44" cy="38" r="13"/><path d="M20 104c0-18 10-32 24-32s24 14 24 32"/><circle cx="78" cy="42" r="12"/><path d="M56 104c2-17 10-28 22-28s21 11 22 28"/><rect x="4" y="4" width="112" height="112" rx="2"/></svg>
+              <b>你们交来的照片</b>
+              <span>占位图 · 等真实情侣样片授权后，换成同一对人的原照片</span>
+            </div>
+            <span class="ba-label l">交给我们的照片</span>
+          </div>
+          <div class="ba-handle" aria-hidden="true"><i></i></div>
+          <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="左右拖动，对比原照片和片中剧照">
+        </figure>
+        <p class="ba-cap">左右拖动对比。示意：右边是《红绳》剧照，左边是占位图。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec team" id="team" data-bg="ivory" data-scene="SC.11 幕后" data-act="3">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="eyebrow">[ 11 · 幕后 ]</p>
+          <h2 class="title split">幕后</h2>
+        </div>
+        <p class="lede">我们在深圳龙华，一支做影像的小团队。</p>
+      </header>
+      <ul class="team-grid" data-stagger>
+        <li class="tm"><div class="tm-photo ph"><span class="ph-label">照片 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="tm-role">主理人</p><h3 class="tm-name">姓名待填</h3><p class="tm-desc">对接新人和场地，盯每一部的交付。</p></li>
+        <li class="tm"><div class="tm-photo ph"><span class="ph-label">照片 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="tm-role">编剧</p><h3 class="tm-name">姓名待填</h3><p class="tm-desc">听你们的回答，写成一页大纲和剧本。</p></li>
+        <li class="tm"><div class="tm-photo ph"><span class="ph-label">照片 · 待补</span><svg viewBox="0 0 100 168" aria-hidden="true"><use href="#i-icon"/></svg></div><p class="tm-role">AIGC 导演</p><h3 class="tm-name">姓名待填</h3><p class="tm-desc">把剧本做成画面，对照照片把关像不像。</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec rules" id="rules" data-bg="ink" data-scene="SC.12 放映守则" data-act="3">
+    <div class="wrap">
+      <header class="sec-head">
+        <div>
+          <p class="eyebrow">[ 12 · 守则 ]</p>
+          <h2 class="title split">放映守则</h2>
+        </div>
+        <p class="lede">下面这几件事，每一单都照做。</p>
+      </header>
+      <ol class="rule-list">
+        <li><i class="rl" aria-hidden="true"></i><span class="r-no">01</span><h3>先签授权，再开工</h3><p>开工前签肖像授权。未成年人入片须监护人签字，默认不进案例。</p></li>
+        <li><i class="rl" aria-hidden="true"></i><span class="r-no">02</span><h3>每一部都标注</h3><p>片头第一帧起标「本片含 AI 生成内容」，海报底部也有。</p></li>
+        <li><i class="rl" aria-hidden="true"></i><span class="r-no">03</span><h3>已故的亲人</h3><p>只修复老照片，不让逝者开口说话。</p></li>
+        <li><i class="rl" aria-hidden="true"></i><span class="r-no">04</span><h3>不做未授权的人</h3><p>不做名人、前任，也不做没有授权的人。</p></li>
+        <li><i class="rl" aria-hidden="true"></i><span class="r-no">05</span><h3>正版配乐</h3><p>音乐只用正版授权曲库。</p></li>
+        <li><i class="rl" aria-hidden="true"></i><span class="r-no">06</span><h3>按期删除</h3><p>验收后 30 天删除原照片，90 天删除成片副本。</p></li>
+        <li><i class="rl" aria-hidden="true"></i><span class="r-no">07</span><h3>定金有上限</h3><p>定金不超过合同总价的 20%。</p></li>
+        <li><i class="rl" aria-hidden="true"></i><span class="r-no">08</span><h3>案例要你们同意</h3><p>没有你们的书面授权，片子不拿去当案例。</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 第四幕 · 预约 -->
+  <section class="sec faq" id="faq" data-bg="ivory" data-scene="SC.13 问答" data-act="4">
+    <div class="wrap">
+      <div class="act-head">
+        <p class="act-no"><span class="latin">ACT IV</span>第四幕</p>
+        <p class="act-word split-act">预约</p>
+        <p class="act-line">还剩几个问题，然后订一场放映。</p>
+      </div>
+      <header class="sec-head">
+        <div>
+          <p class="eyebrow">[ 13 · 问答 ]</p>
+          <h2 class="title split">放映之前</h2>
+        </div>
+        <p class="lede">下单之前，你们可能想先知道这些。点开看回答。</p>
+      </header>
+      <div class="acc" data-reveal>
+        <div class="acc-item open"><h3><button class="acc-q" type="button" aria-expanded="true" aria-controls="qa1" id="qq1"><span class="latin">Q.</span>需要去拍摄吗？<i class="acc-ic" aria-hidden="true"></i></button></h3><div class="acc-a" id="qa1" role="region" aria-labelledby="qq1"><div><p>不需要。我们用你们的照片和故事做成电影，没有实拍。画面由 AI 生成，每一部都会标注。</p></div></div></div>
+        <div class="acc-item"><h3><button class="acc-q" type="button" aria-expanded="false" aria-controls="qa2" id="qq2"><span class="latin">Q.</span>要准备哪些照片？<i class="acc-ic" aria-hidden="true"></i></button></h3><div class="acc-a" id="qa2" role="region" aria-labelledby="qq2"><div><p>合照、精修照、全身照。照片越清楚、角度越多，人物越像你们。做专属版和定制版，问卷里每道题最好配一两张当时的照片。</p></div></div></div>
+        <div class="acc-item"><h3><button class="acc-q" type="button" aria-expanded="false" aria-controls="qa3" id="qq3"><span class="latin">Q.</span>不在深圳能做吗？<i class="acc-ic" aria-hidden="true"></i></button></h3><div class="acc-a" id="qa3" role="region" aria-labelledby="qq3"><div><p>能。深圳可以约见面聊，其他城市全程线上沟通，成片线上交付。婚礼回老家办也一样。</p></div></div></div>
+        <div class="acc-item"><h3><button class="acc-q" type="button" aria-expanded="false" aria-controls="qa4" id="qq4"><span class="latin">Q.</span>多久能看到成片？<i class="acc-ic" aria-hidden="true"></i></button></h3><div class="acc-a" id="qa4" role="region" aria-labelledby="qq4"><div><p>每个版本的周期不一样，下单前按你们的婚期排好。专属版和定制版从确认大纲那天开始算。</p></div></div></div>
+        <div class="acc-item"><h3><button class="acc-q" type="button" aria-expanded="false" aria-controls="qa5" id="qq5"><span class="latin">Q.</span>不满意可以改吗？<i class="acc-ic" aria-hidden="true"></i></button></h3><div class="acc-a" id="qa5" role="region" aria-labelledby="qq5"><div><p>每一部都有一次整体修改和两次片段修改，每次片段累计不超过 15 秒；专属版和定制版在剧本阶段还能改 2 轮。人物或场景没达到 90% 还原度的返工，不算修改次数。</p></div></div></div>
+        <div class="acc-item"><h3><button class="acc-q" type="button" aria-expanded="false" aria-controls="qa6" id="qq6"><span class="latin">Q.</span>99 元的预告片能退吗？<i class="acc-ic" aria-hidden="true"></i></button></h3><div class="acc-a" id="qa6" role="region" aria-labelledby="qq6"><div><p>交付前可以退，交付后不退。之后升级任何一个正片版本，99 元全额抵扣。</p></div></div></div>
+        <div class="acc-item"><h3><button class="acc-q" type="button" aria-expanded="false" aria-controls="qa7" id="qq7"><span class="latin">Q.</span>能把已故的亲人放进片子吗？<i class="acc-ic" aria-hidden="true"></i></button></h3><div class="acc-a" id="qa7" role="region" aria-labelledby="qq7"><div><p>可以修复他们的老照片放进片中，但不会让逝者开口说话。</p></div></div></div>
+        <div class="acc-item"><h3><button class="acc-q" type="button" aria-expanded="false" aria-controls="qa8" id="qq8"><span class="latin">Q.</span>我们的照片会被拿去做什么？<i class="acc-ic" aria-hidden="true"></i></button></h3><div class="acc-a" id="qa8" role="region" aria-labelledby="qq8"><div><p>只用来做你们的片子。验收后 30 天删除原照片，90 天删除成片副本；没有你们的书面授权，不会拿去当案例。</p></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec partner" id="partner" data-bg="ink" data-scene="SC.14 合作" data-act="4">
+    <div class="wrap partner-grid">
+      <div>
+        <p class="eyebrow">[ 14 · 合作 ]</p>
+        <h2 class="title split">给婚礼堂和婚庆公司</h2>
+        <p class="lede">把一部属于新人自己的电影，放进你们的婚礼套餐。深圳的婚礼堂和婚庆公司，我们上门聊。</p>
+        <a class="link-arrow" href="#booking">约时间聊聊<span aria-hidden="true">→</span></a>
+      </div>
+      <dl class="terms" data-stagger>
+        <div><dt>合作方式</dt><dd>联名出品，或者按你们的要求交付</dd></div>
+        <div><dt>专属模板</dt><dd>按你们场地的风格开发剧本模板</dd></div>
+        <div><dt>实景入片</dt><dd>把你们的厅做进片子里</dd></div>
+        <div><dt>年框合作</dt><dd>按年签，订单优先排期</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec booking" id="booking" data-bg="ivory" data-scene="SC.15 预约" data-act="4">
+    <div class="wrap">
+      <div class="premiere inv" data-reveal>
+        <svg viewBox="0 0 219 219" aria-hidden="true"><use href="#i-seal"/></svg>
+        <div>
+          <p class="eyebrow">首映计划</p>
+          <h3>招募首批 10 对主演</h3>
+          <p class="pr-text">愿意把成片和海报授权给我们公开展示的新人，在预约单里勾上「报名首映计划」。具体安排在企业微信里聊。</p>
+        </div>
+        <a class="link-arrow" href="#book">去预约单<span aria-hidden="true">→</span></a>
+      </div>
+      <div class="booking-grid">
+        <div class="booking-intro">
+          <p class="eyebrow">[ 15 · 预约 ]</p>
+          <h2 class="title split">预约一场放映</h2>
+          <p class="lede">填几句，会生成一张预约单。复制下来，加我们的企业微信发过来就行。</p>
+          <form class="book-form" id="book" novalidate>
+            <div class="field"><label for="f-name">怎么称呼你们</label><input type="text" id="f-name" autocomplete="off" placeholder="例：小林和阿青"></div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-date">婚期</label>
+                <div class="date-wrap"><input type="date" id="f-date"><label class="check" for="f-tbd"><input type="checkbox" id="f-tbd">还没定</label></div>
+              </div>
+              <div class="field"><label for="f-city">婚礼城市</label><input type="text" id="f-city" autocomplete="off" placeholder="例：深圳"></div>
+            </div>
+            <div class="field"><label for="f-venue">婚礼场地</label><input type="text" id="f-venue" autocomplete="off" placeholder="酒店、会所或婚礼堂的名字，没定可以空着"></div>
+            <fieldset class="field">
+              <legend>想了解哪一版</legend>
+              <div class="chips">
+                <input type="radio" name="ver" id="v1" value="预告片体验版"><label for="v1">预告片体验版</label>
+                <input type="radio" name="ver" id="v2" value="基础版"><label for="v2">基础版</label>
+                <input type="radio" name="ver" id="v3" value="专属版"><label for="v3">专属版</label>
+                <input type="radio" name="ver" id="v4" value="定制版"><label for="v4">定制版</label>
+                <input type="radio" name="ver" id="v5" value="还没想好"><label for="v5">还没想好</label>
+              </div>
+            </fieldset>
+            <div class="field"><label for="f-note">想先说的话（选填）</label><textarea id="f-note" rows="3" placeholder="例：我们是大学同学，婚礼在老家办"></textarea></div>
+            <label class="check" for="f-premiere"><input type="checkbox" id="f-premiere">报名首映计划（愿意授权公开展示成片）</label>
+            <p class="form-note">预约单只在你的浏览器里生成，不会自动发给我们。</p>
+          </form>
+        </div>
+        <aside class="book-side" aria-label="预约单">
+          <div class="preview inv">
+            <div class="pv-main">
+              <div class="pv-top"><span>预约单 · <span class="num pv-date"></span></span><span class="pv-tag">示例</span></div>
+              <p class="pv-msg is-example" aria-live="polite">你好，我们是小林和阿青。婚期是 2027 年 5 月 20 日，婚礼办在深圳 · 某某酒店。想了解定制版。</p>
+              <div class="pv-actions">
+                <button type="button" class="btn btn-solid pv-copy" disabled><span>复制这段话</span></button>
+                <p class="pv-status" role="status">先在左边填上你们的信息。</p>
+              </div>
+            </div>
+            <div class="pv-stub"><svg viewBox="0 0 219 219" aria-hidden="true"><use href="#i-seal"/></svg><span>下一步：加企业微信，把这段话发给我们。</span></div>
+          </div>
+          <div class="wecom">
+            <svg viewBox="0 0 219 219" aria-hidden="true"><use href="#i-seal"/></svg>
+            <div><b>企业微信 · 即将开通</b><span>开通后，二维码会放在这里。</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="sec credits" data-bg="ink" data-scene="END 片尾" data-act="4">
+  <div class="wrap">
+    <p class="closing split">这部电影，<br>全世界只放给你们看。</p>
+    <dl class="roll">
+      <div><dt>出品</dt><dd>只映给你 <span class="latin">PRIVATE SCREENING</span></dd></div>
+      <div><dt>主演</dt><dd>你们</dd></div>
+      <div><dt>编剧</dt><dd>你们的故事</dd></div>
+      <div><dt>首映</dt><dd>你们的婚礼</dd></div>
+      <div><dt>制作</dt><dd>深圳市寰球智联文化传媒有限公司</dd></div>
+    </dl>
+    <svg class="seal" viewBox="0 0 219 219" role="img" aria-label="只映给你圆章标志"><use href="#i-seal"/></svg>
+    <div class="legal">
+      <span>© 2026 只映给你</span>
+      <span>深圳市寰球智联文化传媒有限公司</span>
+      <span>本站样片含 AI 生成内容</span>
+    </div>
+    <p class="the-end">全剧终 · <span class="latin">THE END</span></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+(function () {
+  'use strict';
+  var doc = document.documentElement, body = document.body;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var G = window.gsap, ST = window.ScrollTrigger;
+  var motion = !reduce && !!G && !!ST;
+  if (!motion) doc.classList.remove('motion');
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  var KEY_D = '%%KEY_D%%';
+  var INK = '#1D1B1A', IVORY = '#F3ECE0', WARM = '#8A847C';
+  var ACTS = ['序幕', '第一幕', '第二幕', '第三幕', '第四幕'];
+  var lenis = null;
+
+  function lockScroll(on) {
+    if (lenis) { if (on) lenis.stop(); else lenis.start(); }
+    doc.classList.toggle('is-locked', on);
+  }
+  function goTo(id) {
+    var el = id === '#top' ? null : $(id);
+    if (id !== '#top' && !el) return;
+    if (lenis) { lenis.scrollTo(el || 0, { duration: 1.6 }); return; }
+    var y = el ? el.getBoundingClientRect().top + window.pageYOffset : 0;
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+
+  /* ---------- film grain tile ---------- */
+  (function () {
+    var el = $('.grain');
+    try {
+      var n = 180, c = document.createElement('canvas');
+      c.width = c.height = n;
+      var x = c.getContext('2d'), img = x.createImageData(n, n), d = img.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var v = 128 + ((Math.random() + Math.random() + Math.random() - 1.5) * 150) | 0;
+        d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255;
+      }
+      x.putImageData(img, 0, 0);
+      el.style.backgroundImage = 'url(' + c.toDataURL('image/png') + ')';
+    } catch (e) { el.style.display = 'none'; }
+  })();
+
+  /* ---------- hero keyhole, drawn from the brand mark ---------- */
+  var hero = $('.hero'), stage = $('.hero-stage'), cv = $('.hero-canvas');
+  var ctx = cv.getContext && cv.getContext('2d');
+  var KEY = (window.Path2D && ctx) ? new Path2D(KEY_D) : null;
+  if (!KEY) doc.classList.remove('js');
+  var S = { lens: motion ? 0 : 1, beam: motion ? 0 : 1, zoom: 0 };
+  var W = 0, H = 0, DPR = 1, KH = 0, KCY = 0, dust = [];
+  function mix(a, b, t) {
+    var pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16);
+    var r = Math.round(((pa >> 16) & 255) + ((((pb >> 16) & 255) - ((pa >> 16) & 255)) * t));
+    var g = Math.round(((pa >> 8) & 255) + ((((pb >> 8) & 255) - ((pa >> 8) & 255)) * t));
+    var bl = Math.round((pa & 255) + (((pb & 255) - (pa & 255)) * t));
+    return 'rgb(' + r + ',' + g + ',' + bl + ')';
+  }
+  function measure() {
+    if (!KEY) return;
+    W = stage.clientWidth; H = stage.clientHeight;
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    var small = W < 760;
+    KH = Math.max(120, Math.min(H * (small ? 0.25 : 0.27), 250));
+    KCY = H * (small ? 0.36 : 0.40);
+    hero.style.setProperty('--kh', KH + 'px');
+    hero.style.setProperty('--kcy', KCY + 'px');
+    if (!dust.length) for (var i = 0; i < 34; i++) dust.push({ x: Math.random(), y: Math.random(), r: .5 + Math.random() * 1.2, a: .05 + Math.random() * .22, v: .00012 + Math.random() * .00035, p: Math.random() * 6.28 });
+    draw();
+  }
+  function draw() {
+    if (!KEY) return;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = INK;
+    ctx.fillRect(0, 0, cv.width, cv.height);
+    var z = S.zoom;
+    if (motion && z < .7 && S.beam > .2) {
+      var fade = (1 - z / .7) * Math.min(1, S.beam), now = performance.now();
+      ctx.fillStyle = IVORY;
+      for (var i = 0; i < dust.length; i++) {
+        var p = dust[i], y = ((p.y - now * p.v) % 1 + 1) % 1, x = p.x + Math.sin(now * .0004 + p.p) * .01;
+        ctx.globalAlpha = p.a * fade;
+        ctx.beginPath(); ctx.arc(x * cv.width, y * cv.height, p.r * DPR, 0, 6.2832); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    var s0 = KH / 152, restX = W / 2, restY = KCY + (37.5 - 84) * s0;
+    var R = Math.sqrt(W * W + H * H) / 2 * 1.06, sMax = R / 30;
+    var s = s0 * Math.pow(sMax / s0, Math.pow(z, 1.25));
+    var et = 1 - Math.pow(1 - Math.min(1, z * 1.6), 3);
+    var cx = restX + (W / 2 - restX) * et, cy = restY + (H / 2 - restY) * et;
+    ctx.setTransform(DPR * s, 0, 0, DPR * s, DPR * (cx - 50 * s), DPR * (cy - 37.5 * s));
+    if (S.lens >= 1 && S.beam >= 1) { ctx.fillStyle = IVORY; ctx.fill(KEY, 'evenodd'); return; }
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, 100, 63.65); ctx.clip();
+    ctx.globalAlpha = Math.min(1, S.lens); ctx.fillStyle = mix(WARM, IVORY, Math.min(1, S.lens * 1.15));
+    ctx.fill(KEY, 'evenodd'); ctx.restore();
+    if (S.beam > 0) {
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 63.6, 100, (160 - 63.6) * S.beam + .4); ctx.clip();
+      ctx.fillStyle = IVORY; ctx.fill(KEY, 'evenodd'); ctx.restore();
+    }
+  }
+  measure();
+
+  /* ---------- scroll state: progress, timecode, scene, act, tones ---------- */
+  var tc = $('.hud .tc'), sceneEl = $('.hud .scene'), fill = $('.progress-fill'), prog = $('.progress');
+  var secs = $$('[data-scene]'), pills = $$('.pill a'), menuLinks = $$('.menu a[href^="#"]');
+  var heroP = 0, ticking = false, lastScene = null;
+  function placeMarks() {
+    $$('.pm', prog).forEach(function (m) { m.remove(); });
+    var max = Math.max(1, doc.scrollHeight - window.innerHeight);
+    ['#cinema', '#pricing', '#questions', '#faq'].forEach(function (id) {
+      var el = $(id); if (!el) return;
+      var y = el.getBoundingClientRect().top + window.pageYOffset;
+      var m = document.createElement('i'); m.className = 'pm'; m.style.left = Math.min(100, y / max * 100) + '%';
+      prog.appendChild(m);
+    });
+  }
+  function update() {
+    ticking = false;
+    var y = window.pageYOffset || doc.scrollTop;
+    var max = Math.max(1, doc.scrollHeight - window.innerHeight), p = Math.min(1, y / max);
+    fill.style.transform = 'scaleX(' + p + ')';
+    var sec = p * 180, fr = Math.floor((sec % 1) * 24);
+    tc.textContent = 'TC 00:' + pad(Math.floor(sec / 60)) + ':' + pad(Math.floor(sec % 60)) + ':' + pad(fr);
+    var vh = window.innerHeight, topS = null, botS = null, midS = null;
+    for (var i = 0; i < secs.length; i++) {
+      var r = secs[i].getBoundingClientRect();
+      if (r.top <= 36 && r.bottom > 36) topS = secs[i];
+      if (r.top <= vh - 40 && r.bottom > vh - 40) botS = secs[i];
+      if (r.top <= vh / 2 && r.bottom > vh / 2) midS = secs[i];
+    }
+    var topTone = topS ? topS.getAttribute('data-bg') : 'ink', botTone = botS ? botS.getAttribute('data-bg') : 'ink';
+    if (topS === hero && heroP > .8) topTone = 'ivory';
+    if (botS === hero && heroP > .8) botTone = 'ivory';
+    body.setAttribute('data-top', topTone);
+    body.setAttribute('data-bot', botTone);
+    body.classList.toggle('nav-on', !(midS === hero && heroP < .9));
+    if (midS && midS !== lastScene) {
+      lastScene = midS;
+      var act = +midS.getAttribute('data-act') || 0;
+      sceneEl.textContent = ACTS[act] + ' · ' + midS.getAttribute('data-scene');
+      pills.forEach(function (a) { a.setAttribute('aria-current', +a.getAttribute('data-act') === act && act > 0 ? 'true' : 'false'); });
+      var hash = '#' + (midS.id || 'booking');
+      menuLinks.forEach(function (a) { a.setAttribute('aria-current', a.getAttribute('href') === hash ? 'true' : 'false'); });
+    }
+  }
+  function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', schedule, { passive: true });
+  var lastW = window.innerWidth, rT;
+  window.addEventListener('resize', function () {
+    clearTimeout(rT);
+    rT = setTimeout(function () {
+      var coarse = window.matchMedia('(pointer: coarse)').matches;
+      if (!(coarse && window.innerWidth === lastW)) { lastW = window.innerWidth; measure(); }
+      if (motion) ST.refresh(); else placeMarks();
+      schedule();
+    }, 160);
+  });
+  window.addEventListener('load', function () { placeMarks(); schedule(); });
+  update();
+
+  /* ---------- programme menu ---------- */
+  (function () {
+    var menu = $('#menu'), btn = $('.menu-btn'), close = $('.menu-close', menu), open = false;
+    function show() {
+      if (open) return; open = true;
+      menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); lockScroll(true);
+      if (motion) {
+        G.fromTo(menu, { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: .7, ease: 'power3.inOut' });
+        G.fromTo($$('.mc', menu), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .7, stagger: .06, delay: .25, ease: 'power3.out' });
+      }
+      close.focus({ preventScroll: true });
+    }
+    function hide(cb) {
+      if (!open) { if (cb) cb(); return; }
+      open = false; btn.setAttribute('aria-expanded', 'false');
+      var done = function () { menu.hidden = true; lockScroll(false); btn.focus({ preventScroll: true }); if (cb) cb(); };
+      if (motion) G.to(menu, { clipPath: 'inset(0% 0% 100% 0%)', duration: .55, ease: 'power3.inOut', onComplete: done }); else done();
+    }
+    btn.addEventListener('click', show);
+    close.addEventListener('click', function () { hide(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && open) hide(); });
+    $$('a[href^="#"]', menu).forEach(function (a) {
+      a.addEventListener('click', function (e) { e.preventDefault(); var id = a.getAttribute('href'); hide(function () { goTo(id); }); });
+    });
+  })();
+
+  /* ---------- player ---------- */
+  (function () {
+    var pl = $('#player'); if (!pl) return;
+    var v = $('.pl-video', pl), start = $('.pl-start', pl), tog = $('.pl-toggle', pl), timeEl = $('.pl-time', pl);
+    var track = $('.pl-track', pl), bar = $('.pl-fill', pl), full = $('.pl-full', pl), marksBox = $('.pl-marks', pl);
+    var chaps = $$('.chapters button'), fixed = parseFloat(pl.getAttribute('data-duration')) || 0;
+    function fmt(s) { s = Math.max(0, Math.floor(s || 0)); return pad(Math.floor(s / 60)) + ':' + pad(s % 60); }
+    function dur() { return isFinite(v.duration) && v.duration > 0 ? v.duration : fixed; }
+    function render() {
+      var d = dur(), t = v.currentTime || 0;
+      bar.style.width = d ? Math.min(100, t / d * 100) + '%' : '0';
+      timeEl.textContent = fmt(t) + ' / ' + fmt(d);
+      track.setAttribute('aria-valuenow', String(Math.round(t)));
+      track.setAttribute('aria-valuetext', fmt(t));
+      var cur = 0;
+      chaps.forEach(function (b, i) { if (t >= parseFloat(b.getAttribute('data-t')) - .05) cur = i; });
+      chaps.forEach(function (b, i) { b.setAttribute('aria-current', pl.classList.contains('is-started') && i === cur ? 'true' : 'false'); });
+    }
+    function marks() {
+      var d = dur(); if (!d) return; marksBox.innerHTML = '';
+      chaps.forEach(function (b) {
+        var t = parseFloat(b.getAttribute('data-t')); if (t <= 0) return;
+        var i = document.createElement('i'); i.className = 'pl-mark'; i.style.left = (t / d * 100) + '%'; marksBox.appendChild(i);
+      });
+    }
+    function play() { pl.classList.add('is-started'); var p = v.play(); if (p && p.catch) p.catch(function () {}); render(); }
+    function seek(t) { var d = dur(); if (!d) return; try { v.currentTime = Math.max(0, Math.min(d - .05, t)); } catch (e) {} render(); }
+    start.addEventListener('click', play);
+    tog.addEventListener('click', function () { if (v.paused) play(); else v.pause(); });
+    v.addEventListener('click', function () { if (v.paused) play(); else v.pause(); });
+    v.addEventListener('play', function () { pl.classList.add('is-playing'); tog.classList.add('on'); tog.setAttribute('aria-label', '暂停'); });
+    v.addEventListener('pause', function () { pl.classList.remove('is-playing'); tog.classList.remove('on'); tog.setAttribute('aria-label', '播放'); });
+    v.addEventListener('ended', function () { pl.classList.remove('is-started'); $('.pl-start-label', pl).textContent = '再放一次'; render(); });
+    v.addEventListener('timeupdate', render);
+    v.addEventListener('loadedmetadata', function () { marks(); render(); });
+    var dragging = false;
+    function ratio(e) { var r = track.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)); }
+    track.addEventListener('pointerdown', function (e) { dragging = true; try { track.setPointerCapture(e.pointerId); } catch (x) {} seek(ratio(e) * dur()); });
+    track.addEventListener('pointermove', function (e) { if (dragging) seek(ratio(e) * dur()); });
+    track.addEventListener('pointerup', function () { dragging = false; });
+    track.addEventListener('pointercancel', function () { dragging = false; });
+    track.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { seek(v.currentTime + 5); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { seek(v.currentTime - 5); e.preventDefault(); }
+    });
+    chaps.forEach(function (b) { b.addEventListener('click', function () { seek(parseFloat(b.getAttribute('data-t'))); play(); }); });
+    full.addEventListener('click', function () {
+      try {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (pl.requestFullscreen) pl.requestFullscreen().catch(function () {});
+        else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+      } catch (e) {}
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { es.forEach(function (en) { if (!en.isIntersecting && !v.paused) v.pause(); }); }, { threshold: .15 }).observe(pl);
+    }
+    marks(); render();
+  })();
+
+  /* ---------- poster maker ---------- */
+  (function () {
+    var f = $('#pm'); if (!f) return;
+    var poster = $('.pm-poster'), img = $('.pm-img', poster);
+    var TPL = { '1': ['assets/img/redline-1.webp', 'r'], '2': ['assets/img/redline-2.webp', 'l'], '3': ['assets/img/redline-3.webp', 'l'], '4': ['', 'c'] };
+    function val(id, d) { var x = ($('#' + id).value || '').trim(); return x || d; }
+    function sync() {
+      var a = val('pm-a', '小林'), b = val('pm-b', '阿青'), t = val('pm-title', '初见'), d = $('#pm-date').value;
+      $$('.pm-title-v, .pm-title-c', poster).forEach(function (e) { e.textContent = t; });
+      $('.pm-names', poster).textContent = a + '　' + b;
+      $('.pm-date-text', poster).textContent = d ? d.replace(/-/g, '.') : '2027.05.20';
+      var tpl = (f.querySelector('input[name="pm-tpl"]:checked') || {}).value || '1';
+      var lay = (f.querySelector('input[name="pm-lay"]:checked') || {}).value || 'v';
+      poster.setAttribute('data-tpl', tpl); poster.setAttribute('data-side', TPL[tpl][1]); poster.setAttribute('data-layout', lay);
+      if (TPL[tpl][0] && img.getAttribute('src') !== TPL[tpl][0]) img.setAttribute('src', TPL[tpl][0]);
+    }
+    f.addEventListener('input', sync); f.addEventListener('change', sync);
+    f.addEventListener('submit', function (e) { e.preventDefault(); });
+    sync();
+  })();
+
+  /* ---------- price calculator ---------- */
+  (function () {
+    var box = $('#calc'); if (!box) return;
+    var range = $('#calc-min'), out = $('output', box), total = $('.calc-total', box), formula = $('.calc-formula', box), tr = $('#calc-trailer'), len = $('.calc-len', box);
+    var P = { b90: { base: 799, label: '90 秒' }, b150: { base: 1199, label: '150 秒' }, ex: { base: 2199, min: 2, add: 999 }, sig: { base: 3999, min: 3, add: 1299 } };
+    function money(n) { return n.toLocaleString('en-US'); }
+    function sync() {
+      var k = (box.querySelector('input[name="calc-v"]:checked') || {}).value || 'sig', p = P[k];
+      if (p.add) {
+        range.disabled = false; range.min = String(p.min);
+        if (+range.value < p.min) range.value = String(p.min);
+        out.textContent = range.value + ' 分钟'; len.classList.remove('off');
+      } else { range.disabled = true; out.textContent = p.label; len.classList.add('off'); }
+      var extra = p.add ? (+range.value - p.min) : 0;
+      var sum = p.base + extra * (p.add || 0) - (tr.checked ? 99 : 0);
+      total.textContent = '¥' + money(sum);
+      var fx = money(p.base) + (extra > 0 ? ' + ' + extra + ' × ' + money(p.add) : '') + (tr.checked ? ' − 99' : '');
+      formula.textContent = (extra > 0 || tr.checked) ? fx + ' = ' + money(sum) : '起步价 ' + money(p.base);
+    }
+    box.addEventListener('input', sync); box.addEventListener('change', sync);
+    box.addEventListener('submit', function (e) { e.preventDefault(); });
+    sync();
+  })();
+
+  /* ---------- extras: silent clips play when in view ---------- */
+  (function () {
+    var vids = $$('video[data-autoplay]'); if (!vids.length) return;
+    if (reduce || !('IntersectionObserver' in window)) { vids.forEach(function (v) { v.controls = true; v.preload = 'metadata'; }); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        var v = en.target;
+        if (en.isIntersecting) { v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+    }, { threshold: .35 });
+    vids.forEach(function (v) { v.muted = true; io.observe(v); });
+  })();
+
+  /* ---------- question deck ---------- */
+  (function () {
+    var deck = $('#deck'); if (!deck) return;
+    var cards = $$('.qcard', deck), n = cards.length, cur = 0;
+    var prev = $('.deck-prev', deck), next = $('.deck-next', deck), dotsBox = $('.deck-dots', deck), live = $('.deck-live', deck), stack = $('.deck-stack', deck);
+    var parts = [2, 4, 2, 2, 2], dots = [], k = 0;
+    parts.forEach(function (count, gi) {
+      if (gi) { var g = document.createElement('span'); g.className = 'gap'; dotsBox.appendChild(g); }
+      for (var j = 0; j < count; j++) {
+        (function (idx) {
+          var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', '第 ' + (idx + 1) + ' 题');
+          b.addEventListener('click', function () { go(idx); }); dotsBox.appendChild(b); dots.push(b);
+        })(k++);
+      }
+    });
+    function render() {
+      cards.forEach(function (c, i) {
+        var d = i - cur;
+        c.setAttribute('data-pos', d < 0 ? 'gone' : d > 2 ? 'far' : String(d));
+        c.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+      });
+      prev.disabled = cur === 0; next.disabled = cur === n - 1;
+      dots.forEach(function (b, i) { b.setAttribute('aria-current', i === cur ? 'true' : 'false'); });
+      live.textContent = '第 ' + (cur + 1) + ' 题，共 ' + n + ' 题';
+    }
+    function go(i) { cur = Math.max(0, Math.min(n - 1, i)); render(); }
+    prev.addEventListener('click', function () { go(cur - 1); });
+    next.addEventListener('click', function () { go(cur + 1); });
+    stack.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { go(cur + 1); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { go(cur - 1); e.preventDefault(); }
+    });
+    var sx = null;
+    stack.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+    stack.addEventListener('pointerup', function (e) {
+      if (sx === null) return; var dx = e.clientX - sx; sx = null;
+      if (dx < -40) go(cur + 1); else if (dx > 40) go(cur - 1);
+    });
+    stack.addEventListener('pointercancel', function () { sx = null; });
+    render();
+  })();
+
+  /* ---------- before / after ---------- */
+  (function () {
+    var ba = $('#ba'); if (!ba) return;
+    var r = $('.ba-range', ba);
+    function s() { ba.style.setProperty('--pos', r.value + '%'); }
+    r.addEventListener('input', s); s();
+  })();
+
+  /* ---------- accordion ---------- */
+  var refreshT;
+  function refreshSoon() { if (!motion) { setTimeout(placeMarks, 500); return; } clearTimeout(refreshT); refreshT = setTimeout(function () { ST.refresh(); }, 520); }
+  $$('.acc-item').forEach(function (it) {
+    var b = $('.acc-q', it), a = $('.acc-a', it);
+    a.setAttribute('aria-hidden', it.classList.contains('open') ? 'false' : 'true');
+    b.addEventListener('click', function () {
+      var open = !it.classList.contains('open');
+      it.classList.toggle('open', open);
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      a.setAttribute('aria-hidden', open ? 'false' : 'true');
+      refreshSoon();
+    });
+  });
+
+  /* ---------- booking ticket ---------- */
+  (function () {
+    var form = $('#book'); if (!form) return;
+    var msgEl = $('.pv-msg'), tagEl = $('.pv-tag'), copyBtn = $('.pv-copy'), statusEl = $('.pv-status');
+    var tbd = $('#f-tbd'), dateIn = $('#f-date'), prem = $('#f-premiere');
+    var today = new Date();
+    $('.pv-date').textContent = today.getFullYear() + '.' + pad(today.getMonth() + 1) + '.' + pad(today.getDate());
+    var example = msgEl.textContent;
+    function v(id) { return ($('#' + id).value || '').trim(); }
+    function fmt(d) { var p = d.split('-'); return p.length === 3 ? p[0] + ' 年 ' + (+p[1]) + ' 月 ' + (+p[2]) + ' 日' : d; }
+    function compose() {
+      var name = v('f-name'), date = dateIn.value, city = v('f-city'), venue = v('f-venue'), note = v('f-note');
+      var verEl = form.querySelector('input[name="ver"]:checked'), ver = verEl ? verEl.value : '';
+      dateIn.disabled = tbd.checked;
+      var empty = !name && !date && !tbd.checked && !city && !venue && !note && !ver && !prem.checked;
+      if (empty) {
+        msgEl.textContent = example; msgEl.classList.add('is-example');
+        tagEl.hidden = false; copyBtn.disabled = true; statusEl.textContent = '先在左边填上你们的信息。';
+        return;
+      }
+      var out = '你好，我们是' + (name || '（你们的称呼）') + '。';
+      var when = tbd.checked ? '婚期还没定' : (date ? '婚期是 ' + fmt(date) : '');
+      var where = [city, venue].filter(Boolean).join(' · ');
+      var line = [when, where ? '婚礼办在' + where : ''].filter(Boolean).join('，');
+      if (line) out += line + '。';
+      out += (ver && ver !== '还没想好') ? '想了解' + ver + '。' : '想先了解一下各个版本。';
+      if (prem.checked) out += '我们想报名首映计划。';
+      if (note) { note = note.replace(/\s+/g, ' '); out += /[。！？.!?]$/.test(note) ? note : note + '。'; }
+      msgEl.textContent = out; msgEl.classList.remove('is-example');
+      tagEl.hidden = true; copyBtn.disabled = false; statusEl.textContent = '';
+    }
+    form.addEventListener('input', compose); form.addEventListener('change', compose);
+    form.addEventListener('submit', function (e) { e.preventDefault(); compose(); if (!copyBtn.disabled) copyBtn.focus(); });
+    copyBtn.addEventListener('click', function () {
+      var text = msgEl.textContent;
+      function done(ok) { statusEl.textContent = ok ? '已复制。加企业微信后发给我们就行。' : '没能自动复制，请长按上面的文字手动复制。'; }
+      function fallback() {
+        try {
+          var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed'; ta.style.opacity = '0'; body.appendChild(ta); ta.select();
+          var ok = document.execCommand('copy'); body.removeChild(ta); done(ok);
+        } catch (e) { done(false); }
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+        else fallback();
+      } catch (e) { fallback(); }
+    });
+  })();
+
+  /* ---------- static mode: anchors jump natively ---------- */
+  if (!motion) {
+    draw();
+    $$('.pill a, .topbar a[href^="#"], .hero a[href^="#"], .sec a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) { var id = a.getAttribute('href'); if (id.length > 1 && $(id)) { e.preventDefault(); goTo(id); } });
+    });
+    return;
+  }
+
+  try {
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+    if ((window.pageYOffset || doc.scrollTop) < 400) window.scrollTo(0, 0);
+
+    /* ---------- smooth scroll ---------- */
+    G.registerPlugin(ST);
+    ST.config({ ignoreMobileResize: true });
+    if (window.Lenis) {
+      lenis = new window.Lenis({ lerp: 0.085, wheelMultiplier: 0.95 });
+      lenis.on('scroll', ST.update);
+      lenis.on('scroll', schedule);
+      G.ticker.add(function (time) { lenis.raf(time * 1000); });
+      G.ticker.lagSmoothing(0);
+    }
+    $$('a[href^="#"]').forEach(function (a) {
+      if (a.closest('#menu')) return;
+      a.addEventListener('click', function (e) {
+        var id = a.getAttribute('href'); if (!id || id.length < 2) return;
+        if (id !== '#top' && !$(id)) return;
+        e.preventDefault(); goTo(id);
+      });
+    });
+
+    /* ---------- split text ---------- */
+    var split = function (el) {
+      if (el.getAttribute('data-split-done')) return $$('.ch', el);
+      if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', el.textContent.replace(/\s+/g, ''));
+      var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function (n) {
+        var frag = document.createDocumentFragment();
+        Array.from(n.nodeValue).forEach(function (c) {
+          if (/\s/.test(c)) { frag.appendChild(document.createTextNode(c)); return; }
+          var s = document.createElement('span'); s.className = 'ch'; s.textContent = c; s.setAttribute('aria-hidden', 'true'); frag.appendChild(s);
+        });
+        n.parentNode.replaceChild(frag, n);
+      });
+      el.setAttribute('data-split-done', '1');
+      return $$('.ch', el);
+    };
+
+    /* ---------- intro: the 5-second opening, shortened ---------- */
+    G.ticker.add(function () { if (S.zoom < .7) draw(); });
+    var intro = G.timeline({ paused: true, onComplete: function () { lockScroll(false); } });
+    intro
+      .to(S, { lens: 1, duration: .9, ease: 'power1.inOut' }, .3)
+      .to(S, { beam: 1, duration: .85, ease: 'power3.out' }, '>-0.12')
+      .fromTo('.hero-cn span', { opacity: 0, y: 12, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: .8, stagger: .1, ease: 'power2.out' }, '>-0.35')
+      .fromTo('.hero-rule', { scaleX: 0 }, { scaleX: 1, duration: .6, ease: 'power2.inOut' }, '>-0.45')
+      .fromTo('.hero-en', { opacity: 0, letterSpacing: '.3em' }, { opacity: 1, letterSpacing: '.52em', duration: 1, ease: 'power2.out' }, '<')
+      .fromTo('.hero-foot > *, .top-actions', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .8, stagger: .08, ease: 'power2.out', clearProps: 'transform' }, '>-0.6')
+      .fromTo('.hero-hint', { opacity: 0 }, { opacity: 1, duration: .8, ease: 'power2.out' }, '<0.2');
+    if ((window.pageYOffset || doc.scrollTop) > 8) intro.progress(1);
+    else {
+      lockScroll(true); intro.play();
+      var skip = function () { if (intro.progress() < 1) intro.progress(1); };
+      ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) { window.addEventListener(ev, skip, { once: true, passive: true }); });
+    }
+
+    /* ---------- hero: through the keyhole ---------- */
+    var heroUI = $('.hero-ui');
+    ST.create({
+      trigger: hero, start: 'top top', end: '+=150%', pin: true, scrub: true, anticipatePin: 1,
+      onUpdate: function (self) {
+        heroP = self.progress; S.zoom = self.progress;
+        if (S.zoom >= .7) draw();
+        var f = Math.max(0, 1 - self.progress / .16);
+        heroUI.style.opacity = f;
+        heroUI.style.transform = 'translateY(' + (-self.progress * 60) + 'px)';
+        heroUI.style.visibility = f <= 0 ? 'hidden' : 'visible';
+        schedule();
+      }
+    });
+
+    /* ---------- reveals ---------- */
+    $$('.act-word.split-act').forEach(function (el) {
+      var chars = split(el);
+      G.from(chars, { yPercent: 105, opacity: 0, duration: 1.1, stagger: .09, ease: 'power4.out', scrollTrigger: { trigger: el, start: 'top 86%', once: true } });
+    });
+    $$('.act-no, .act-line').forEach(function (el) {
+      G.from(el, { opacity: 0, y: 16, duration: .9, ease: 'power2.out', scrollTrigger: { trigger: el.parentNode, start: 'top 84%', once: true } });
+    });
+    $$('.title.split, .sample-end .split').forEach(function (el) {
+      G.from(split(el), { yPercent: 70, opacity: 0, duration: .9, stagger: .045, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
+    });
+    $$('.v-title .v-col').forEach(function (col, i) {
+      G.from(split(col), { y: -24, opacity: 0, duration: 1, stagger: .07, ease: 'power3.out', delay: i * .35, scrollTrigger: { trigger: '.v-title', start: 'top 80%', once: true } });
+    });
+    (function () {
+      var man = $('.manifesto'); if (!man) return;
+      G.fromTo(split(man), { opacity: .16 }, { opacity: 1, ease: 'none', stagger: .05, scrollTrigger: { trigger: man, start: 'top 78%', end: 'bottom 42%', scrub: true } });
+    })();
+    $$('[data-stagger]').forEach(function (box) {
+      G.from(box.children, { y: 40, opacity: 0, duration: .95, stagger: .09, ease: 'power3.out', scrollTrigger: { trigger: box, start: 'top 88%', once: true } });
+    });
+    $$('[data-reveal]').forEach(function (el) {
+      G.from(el, { y: 48, opacity: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
+    });
+
+    var mm = G.matchMedia();
+    $$('.poster').forEach(function (p, i) {
+      var frame = $('.poster-frame', p), img = $('img', p);
+      G.fromTo(frame, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'power3.inOut', delay: i * .12, scrollTrigger: { trigger: p, start: 'top 90%', once: true } });
+      G.fromTo(img, { scale: 1.18 }, { scale: 1, duration: 2, ease: 'power2.out', delay: i * .12, scrollTrigger: { trigger: p, start: 'top 90%', once: true } });
+    });
+    mm.add('(min-width: 900px)', function () {
+      $$('.poster').forEach(function (p, i) {
+        G.to(p, { yPercent: [-4, -12, -7][i], ease: 'none', scrollTrigger: { trigger: '.posters', start: 'top bottom', end: 'bottom top', scrub: true } });
+      });
+      G.fromTo('.pm-poster', { rotate: -2.5, y: 60 }, { rotate: 0, y: 0, ease: 'none', scrollTrigger: { trigger: '.postermaker', start: 'top bottom', end: 'center center', scrub: true } });
+    });
+
+    /* process: horizontal film strip on wide screens */
+    mm.add('(min-width: 900px) and (min-height: 620px)', function () {
+      var proc = $('.process'), track = $('.strip-track'), fcNow = $('.fc-now'), frames = $$('.frame', track);
+      var dist = function () { return Math.max(0, track.scrollWidth - window.innerWidth); };
+      proc.style.height = '100vh'; proc.style.display = 'flex'; proc.style.flexDirection = 'column';
+      proc.style.justifyContent = 'center'; proc.style.paddingTop = '0'; proc.style.paddingBottom = '0';
+      var tw = G.to(track, {
+        x: function () { return -dist(); }, ease: 'none',
+        scrollTrigger: {
+          trigger: proc, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: true, invalidateOnRefresh: true,
+          onUpdate: function (self) { fcNow.textContent = pad(Math.min(frames.length, 1 + Math.floor(self.progress * frames.length * .999))); }
+        }
+      });
+      return function () { proc.removeAttribute('style'); tw.kill(); };
+    });
+    G.from('.frame', { opacity: 0, x: 40, duration: .9, stagger: .08, ease: 'power3.out', scrollTrigger: { trigger: '.strip', start: 'top 85%', once: true } });
+
+    /* before/after: a small hint swing when it first appears */
+    (function () {
+      var ba = $('#ba'); if (!ba) return;
+      var range = $('.ba-range', ba), o = { v: 50 };
+      G.to(o, {
+        keyframes: [{ v: 30, duration: .6 }, { v: 68, duration: .8 }, { v: 50, duration: .6 }], ease: 'power2.inOut',
+        onUpdate: function () { range.value = String(Math.round(o.v)); ba.style.setProperty('--pos', o.v + '%'); },
+        scrollTrigger: { trigger: ba, start: 'top 70%', once: true }
+      });
+    })();
+
+    G.from('.rule-list .rl', { scaleX: 0, duration: 1.1, stagger: .08, ease: 'power3.inOut', scrollTrigger: { trigger: '.rule-list', start: 'top 85%', once: true } });
+    G.from('.rule-list li > :not(.rl)', { y: 18, opacity: 0, duration: .8, stagger: .025, ease: 'power2.out', scrollTrigger: { trigger: '.rule-list', start: 'top 85%', once: true } });
+    G.from('.book-form .field, .book-form .field-row, .book-form > .check', { y: 24, opacity: 0, duration: .8, stagger: .06, ease: 'power2.out', scrollTrigger: { trigger: '.book-form', start: 'top 88%', once: true } });
+    G.from('.book-side > *', { y: 40, opacity: 0, duration: 1, stagger: .12, ease: 'power3.out', scrollTrigger: { trigger: '.book-side', start: 'top 88%', once: true } });
+    (function () {
+      var closing = $('.closing');
+      G.from(split(closing), { opacity: 0, y: 16, filter: 'blur(6px)', duration: 1, stagger: .06, ease: 'power2.out', scrollTrigger: { trigger: closing, start: 'top 82%', once: true } });
+      G.from('.roll div', { y: 30, opacity: 0, duration: 1, stagger: .12, ease: 'power2.out', scrollTrigger: { trigger: '.roll', start: 'top 88%', once: true } });
+      G.from('.seal', { opacity: 0, scale: .9, duration: 1.2, ease: 'power2.out', scrollTrigger: { trigger: '.seal', start: 'top 92%', once: true } });
+    })();
+
+    ST.addEventListener('refresh', function () { placeMarks(); schedule(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ST.refresh(); });
+    window.addEventListener('load', function () { ST.refresh(); });
+  } catch (err) {
+    doc.classList.remove('motion', 'is-locked');
+    S.lens = 1; S.beam = 1; S.zoom = 0; draw();
+    if (window.console) console.error(err);
+  }
+})();
+</script>
+</body>
+</html>
