@@ -17,7 +17,18 @@ Music: the 90/150-second template cuts in ai 婚礼/模板 carry the original so
 影楼版 / original-score cuts: 红绳 影楼用 90 秒, 十世 90 秒 (Seed Audio score), 雪国 影楼加长版,
 镰仓 影楼版.
 
-film-*.mp4 are large and stay out of git (see .gitignore). Ship them with site/ or put them on the CDN.
+film-*.mp4 are large and stay out of git (see .gitignore). They are uploaded to the studio media
+service and the page links the public URLs (full-size downloads, byte ranges for seeking):
+
+    python3 "/Volumes/SN580X/服务器/AIGC/调用说明/aigc_client.py" --config "<本人成员配置>" upload --file src/media/film-<slug>.mp4
+
+After regenerating a film, upload it again and replace its URL in src/index.template.html
+(the 放映厅 player and the matching data-film in 片库). Current URLs:
+
+    redline   https://giftedprofessor.xyz/v1/media/assets/5136134265b2a3cbb3fa45750bff798837797f333bb3490d.mp4
+    shishi    https://giftedprofessor.xyz/v1/media/assets/ce480e08304a6288fe26b97bb3f187cbf1c4e8954a230a91.mp4
+    kamakura  https://giftedprofessor.xyz/v1/media/assets/a340e1a70f14a2cc7377efb819b92c8c8b5e11ae77a29a3b.mp4
+    xueguo    https://giftedprofessor.xyz/v1/media/assets/e35f3983cdf32f8cb7589c873ee09244d36d1c55fbd538e5.mp4
 """
 import argparse
 import os
