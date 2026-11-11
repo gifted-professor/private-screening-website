@@ -4,3 +4,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+# 片库可播放的成片体积大，由 scripts/make_works.py 生成，部署时随 site/ 上传或放 CDN
+/src/media/film-*.mp4
+/site/assets/video/film-*.mp4
